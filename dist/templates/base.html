@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragram" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/bootstrap-4.6.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/bootstrap-4.6.2-dist/js/bootstrap.bundle.js">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/iconfont/iconfont.css">
+</head>
+
+<body>
+    <script src="/static/js/jquery-3.7.1.min.js"></script>
+    <div class="for_all" style="display: flex;flex-direction: row;overflow: hidden;">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar_top">
+                <img src="/static/static/img/runze.png" alt="Sidebar Image">
+            </div>
+            <ul class="nav-list" id="menu_options">
+                <li><a href="#" class="nav-link active" id="index-page-btn">首页</a></li> <!-- 添加 active 类 -->
+                <li><a href="/motor_config" class="nav-link" id="motor-config-page-btn">电机配置</a></li>
+                <li><a href="#" class="nav-link" id="control-config-page-btn">控制配置</a></li>
+                <li><a href="#" class="nav-link" id="control-center-page-btn">控制中心</a></li>
+                <li><a href="#" class="nav-link" id="action-group-page-btn">动作组</a></li>
+                <li><a href="#" class="nav-link" id="voice-page-btn">语音调试</a></li>
+                <li><a href="#" class="nav-link" id="vision-page-btn">视觉调试</a></li>
+                <li><a href="#" class="nav-link" id="skill-page-btn">技能训练</a></li>
+                <li><a href="#" class="nav-link" id="action-mapping-page-btn">动作映射</a></li>
+            </ul>
+        </div>
+        <div style="width: 91vw">
+            {% block body %}
+                
+            {% endblock %}
+        </div>
+    </div>
+    <script src="/static/bootstrap-4.6.2-dist/js/bootstrap.bundle.js"></script>
+    <script src="/static/bootstrap-4.6.2-dist/js/bootstrap.js"></script>
+    <script src="/static/js/echarts.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/apis.js" type="module"></script>
+    <script>
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); // Remove active class from all links
+        $('#{{ page }}-btn').addClass('active')
+        $(document).ready(function() {
+            switch('{{ page }}'){
+                case 'index-page':
+                    console.log("index")
+                    break;
+                case 'motor-config-page':
+                    refresh_motor_page()
+                    break;
+                case 'control-config-page':
+                    break;
+                case 'action-group-page':
+                    break;
+                case 'balance-page':
+                    break;
+                case 'voice-page':
+                    break;
+                case 'vision-page':
+                    break;
+                case 'skill-page':
+                    break;
+                case 'action-mapping-page':
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>

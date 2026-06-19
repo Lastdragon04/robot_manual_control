@@ -1,0 +1,15 @@
+J_head_yaw
+J_head_pitch
+J_arm_l_01
+J_arm_l_02
+J_arm_l_03
+J_arm_l_04
+J_arm_l_05
+J_arm_l_06
+J_arm_r_01
+J_arm_r_02
+J_arm_r_03
+J_arm_r_04
+J_arm_r_05
+J_arm_r_06
+J_waist_yaw

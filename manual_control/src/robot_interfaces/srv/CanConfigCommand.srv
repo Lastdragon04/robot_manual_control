@@ -1,0 +1,7 @@
+uint8 opcode
+uint8 device
+uint8[] data1
+float32[] data2
+string[] device_names
+---
+uint8 result

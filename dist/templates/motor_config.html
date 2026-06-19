@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    电机控制
+{% endblock %}
+
+{% block body %}
+<div class="main-content" id="motor-config-page" style="overflow: auto;display: block;">
+    <div class="title">
+        <div style="display: flex;flex-direction: row;gap:0.5vw">
+            <div>
+                <h1>关节电机配置</h1>
+            </div>
+            <div style="height: 3%;padding-top: 5px;">
+                <button class="normal_btn" id="openModalBtn1">添加</button>
+            </div>
+        </div>
+        <p>调整电机的canID类型等等</p>
+    </div>
+    <div>
+        <table class="custom-table" style="margin-bottom: -10px;">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">序号</th>
+                    <th>CanId</th>
+                    <th>MotorId</th>
+                    <th>电机名称</th>
+                    <th>协议类型</th>
+                    <th>当前位置</th>
+                    <th>最大位置</th>
+                    <th>最小位置</th>
+                    <th>默认位置</th>
+                    <th style="width: 15%;">操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="content" style="overflow: unset;">
+        <table class="custom-table">
+            <tbody id="motor_config_tb" >
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="motor-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeModalBtn1">&times;</span>
+        <div>
+            <h2>添 加 电 机</h2>
+            <p>添加电机以控制电机</p>
+            <hr>
+            <div  style="display: flex;flex-direction: column;gap: 10px;">
+                <div class="form_box">
+                    <label for="motor_id">电机 id</label>
+                    <input type="number" class="form-control" id="motor_id" placeholder="电机id">
+                </div>
+                <div class="form_box">
+                    <label for="can_id">Can Id</label>
+                    <input type="number" class="form-control" id="can_id" placeholder="如:1,2,3整数型">
+                </div>
+                <div class="form_box">
+                    <label for="motor_name">电机名称</label>
+                    <input type="text" class="form-control" id="motor_name" placeholder="如：无刷电机，关节电机，步进电机...">
+                </div>
+                <div class="form_box">
+                    <label for="protocol" >协议类型</label>
+                    <select class="form-control" id="protocol" style="width: 70%!important;">
+                        <option value="0" selected >请选择协议</option>
+                        <option value="1">邱协议</option>
+                        <option value="2">老丁协议</option>
+                        <option value="2">待添加</option>
+                    </select>
+                </div>
+                <div class="form_box">
+                    <label for="motor_current_position">当前位置</label>
+                    <input type="number" class="form-control" id="motor_current_position" placeholder="当前位置">
+                </div>
+                <div class="form_box">
+                    <label for="motor_max_position">最大位置</label>
+                    <input type="number" class="form-control" id="motor_max_position" placeholder="最大位置">
+                </div>
+                <div class="form_box">
+                    <label for="motor_min_position">最小位置</label>
+                    <input type="number" class="form-control" id="motor_min_position" placeholder="最小位置">
+                </div>
+                <div class="form_box">
+                    <label for="motor_default_position">默认位置</label>
+                    <input type="number" class="form-control" id="motor_default_position" placeholder="默认位置">
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="normal_btn" id="add_motor" style="width:100%;">添加</button>
+        </div>
+        <div style="display: flex;justify-content: center;">
+            <div class="spinner-border text-success" role="status" id="add_motor_wait" style="display: none;">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="motor-modify-modal" class="modal">
+{% endblock %}

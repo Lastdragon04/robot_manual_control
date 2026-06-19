@@ -1,0 +1,4 @@
+string key
+int8 value
+---
+int8 result

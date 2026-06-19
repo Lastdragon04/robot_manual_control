@@ -1,0 +1,135 @@
+{
+  "id": "4738044",
+  "name": "机器人",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1120961",
+      "name": "编辑",
+      "font_class": "bianji1",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "2594352",
+      "name": "路径规划",
+      "font_class": "lujingguihua",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "7450626",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "18160847",
+      "name": "icon_group",
+      "font_class": "icon_group",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "39821602",
+      "name": "相机视角过渡",
+      "font_class": "xiangjishijiaoguodu",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "5387588",
+      "name": "箭头_向下",
+      "font_class": "jiantou_xiangxia",
+      "unicode": "eb0a",
+      "unicode_decimal": 60170
+    },
+    {
+      "icon_id": "5387589",
+      "name": "箭头_向上",
+      "font_class": "jiantou_xiangshang",
+      "unicode": "eb0b",
+      "unicode_decimal": 60171
+    },
+    {
+      "icon_id": "37029099",
+      "name": "蔡徐坤-copy",
+      "font_class": "caixukun",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6915173",
+      "name": "微波人体探测器",
+      "font_class": "weiborentitanceqi",
+      "unicode": "ecb1",
+      "unicode_decimal": 60593
+    },
+    {
+      "icon_id": "24522006",
+      "name": "动作",
+      "font_class": "dongzuo",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "42227536",
+      "name": "robot-2-line",
+      "font_class": "robot-2-line",
+      "unicode": "e7a2",
+      "unicode_decimal": 59298
+    },
+    {
+      "icon_id": "705682",
+      "name": "拼图",
+      "font_class": "pintu",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "4502323",
+      "name": "控制器",
+      "font_class": "kongzhiqi",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "8039427",
+      "name": "批量控制",
+      "font_class": "piliangkongzhi",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "14648718",
+      "name": "视觉设置",
+      "font_class": "shijueshezhi",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "26460444",
+      "name": "行走模式",
+      "font_class": "hangzoumoshi",
+      "unicode": "e99b",
+      "unicode_decimal": 59803
+    },
+    {
+      "icon_id": "26847671",
+      "name": "语音",
+      "font_class": "yuyin",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "36876602",
+      "name": "伺服电机",
+      "font_class": "sifudianji",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    }
+  ]
+}

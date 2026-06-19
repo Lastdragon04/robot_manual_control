@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragram" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>北京人形机器人传统控制节点</title>
+    <link rel="stylesheet" href="/static/bootstrap-4.6.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/iconfont/iconfont.css">
+</head>
+
+<body>
+    <script src="/static/js/jquery-3.7.1.min.js"></script>
+    <script src="/static/bootstrap-4.6.2-dist/js/bootstrap.bundle.js"></script>
+    <script src="/static/bootstrap-4.6.2-dist/js/bootstrap.js"></script>
+    <script src="/static/js/echarts.js"></script>
+    <div class="for_all">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar_top">
+                <img src="/static/static/img/logo2.png" alt="Sidebar Image">
+            </div>
+            <ul class="nav-list" id="menu_options">
+                <li><a href="#" class="nav-link menu active" id="index-page-btn">首页</a></li> <!-- 添加 active 类 -->
+                <li><a href="#" class="nav-link menu" id="motor-config-page-btn">电机配置</a></li>
+                <li><a href="#" class="nav-link menu" id="control-config-page-btn">控制配置</a></li>
+                <li><a href="#" class="nav-link menu" id="control-center-page-btn">控制中心</a></li>
+                <li><a href="#" class="nav-link menu" id="rectify-page-btn">平衡数据</a></li>
+                <li><a href="#" class="nav-link menu" id="action-group-page-btn">动作组</a></li>
+                <li><a href="/voice/" class="nav-link menu" id="voice-page-btn">语音调试</a></li>
+                <li><a href="#" class="nav-link menu" id="vision-page-btn">视觉调试</a></li>
+                <li><a href="#" class="nav-link menu" id="skill-page-btn">技能训练</a></li>
+                <li><a href="#" class="nav-link menu" id="action-mapping-page-btn">动作映射</a></li>
+                <li><a href="#" class="nav-link menu" id="humanoid-btn">拟人化</a></li>
+            </ul>
+        </div>
+        <div class="main-content active background_index" id="index-page" style="color: white;">
+            <div class="title">
+                <div style="display: flex;flex-direction: row;gap:1vw;">
+                    <div>
+                        <h1>北京人形机器人创新中心</h1>
+                    </div>
+                    <div style="margin-top: -10px;">
+                        <i class="iconfont" style="font-size: 3.2em">&#xe7a2;</i>
+                    </div>
+                </div>
+                <div style="display: flex;flex-direction: row;align-items: center;gap: 15px;">
+                    <p style="margin-bottom: 0;">version:3.0</p>
+                    <select class="form-control" id="global_robot_select" style="width: auto;color: #333;">
+                        <option value="1">天工2.0Plus</option>
+                        <option value="2" selected>天工2.0Pro</option>
+                        <option value="3">天轶2.0Pro</option>
+                    </select>
+                </div>
+                <hr style="margin-bottom: 0;margin-top: 0.5rem;background-color: white;">
+            </div>
+            <div style="width: 100%;height: 90%;">
+                <p>用于传统控制</p>
+                <br>
+                <a class="btn btn-outline-info" style="color: white;" href="/controller/" >切换为手柄模式</a>
+            </div>
+        </div>
+        <div class="main-content" id="motor-config-page" style="overflow: auto;">
+            <div class="title">
+                <div style="display: flex;flex-direction: row;gap:0.5vw">
+                    <div>
+                        <h1>关节电机配置</h1>
+                    </div>
+                    <div style="height: 3%;padding-top: 5px;">
+                        <button class="normal_btn" id="openModalBtn1">添加</button>
+                    </div>
+                </div>
+                <p>调整电机的canID类型等等</p>
+            </div>
+            <div class="content" style="overflow: auto;">
+                <table class="custom-table" style="table-layout: fixed; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="width: 3%;">序号</th>
+                            <th style="width: 6%;">MotorId</th>
+                            <th style="width: 6%;">CanRx</th>
+                            <th style="width: 6%;">CanTx</th>
+                            <th style="width: 16%;">电机名称</th>
+                            <th style="width: 8%;">协议类型</th>
+                            <th style="width: 8%;">当前位置</th>
+                            <th style="width: 8%;">最大位置</th>
+                            <th style="width: 8%;">最小位置</th>
+                            <th style="width: 8%;">默认位置</th>
+                            <th style="width: 13%;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="motor_config_tb">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="main-content" id="control-config-page" style="overflow: auto;">
+            <div class="title">
+                <div style="display: flex;flex-direction: row;gap:0.5vw">
+                    <div>
+                        <h1>控制配置</h1>
+                    </div>
+                    <div>
+                        <button class="normal_btn" id="openModalBtn2">添加</button>
+                    </div>
+                </div>
+                <p>从宏观层面上配置关节的移动</p>
+            </div>
+            <div style="overflow: hidden;">
+                <table class="control-table" style="table-layout: fixed;width: calc(100% - 17px);">
+                    <colgroup>
+                        <col style="width: 3%;"><col style="width: 11%;"><col style="width: 8%;">
+                        <col style="width: 11%;"><col style="width: 6%;"><col style="width: 10%;">
+                        <col style="width: 5%;"><col style="width: 5%;"><col style="width: 5%;">
+                        <col style="width: 5%;"><col style="width: 5%;"><col style="width: 6%;">
+                        <col style="width: 10%;"><col style="width: 10%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th><th>关节名称</th><th>关节位置</th>
+                            <th>URDF名称</th><th>控制类型</th><th>Topic</th>
+                            <th>当前位置</th><th>偏移量</th><th>最大位置</th>
+                            <th>最小位置</th><th>默认位置</th><th>操纵电机号</th>
+                            <th>依赖</th><th>操作</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="content" style="max-height: 60vh; overflow-y: scroll;">
+                <table class="control-table" style="table-layout: fixed;width: 100%;">
+                    <colgroup>
+                        <col style="width: 3%;"><col style="width: 11%;"><col style="width: 8%;">
+                        <col style="width: 11%;"><col style="width: 6%;"><col style="width: 10%;">
+                        <col style="width: 5%;"><col style="width: 5%;"><col style="width: 5%;">
+                        <col style="width: 5%;"><col style="width: 5%;"><col style="width: 6%;">
+                        <col style="width: 10%;"><col style="width: 10%;">
+                    </colgroup>
+                    <tbody id="control_config_tb">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="main-content" id="control-center-page" style="padding-left: 20px;padding-top: 20px;padding-right:0 !important;overflow: auto;">
+            <div style="display: flex;justify-content: space-between;">
+                <div class="title" style="width: auto;">
+                    <div style="display: flex;flex-direction: column;">
+                        <div style="display: flex;flex-direction: row;">
+                            <div style="display: flex;flex-direction: row;">
+                                <h1>控制中心</h1>
+                                
+                                <div style="margin-top: -10px;">
+                                    <i class="iconfont" style="font-size: 3.2em">&#xe614;</i>
+                                </div>
+                            </div>
+                            <div style="width: 15vw;margin-top: 10px;">
+                                <select class="form-control" id="robot_type_select" style="width: 70%!important;" disabled>
+                                    <option value="1">天工2.0Plus</option>
+                                    <option value="2" selected>天工2.0Pro</option>
+                                    <option value="3">天轶2.0Pro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p style="margin-bottom: 0;">让机器人动起来，+缩，-伸，脚尖向上踝前后-，脚尖向下+</p>
+                    </div>
+                </div>
+                <div class="control_center_menu">                 
+                    <div style="display: flex;flex-direction: column-reverse;">
+                        <div style="display: flex;flex-direction:row;justify-content: space-between;">
+                            <div style="width: 10%;"></div>
+                            <div style="padding-left:70px"><a href="http://192.168.31.176:8000/motor_performance.png" id="show_run_result">显示结果</a></div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="debug_switch">
+                                <label class="custom-control-label" for="debug_switch">调试模式</label>
+                            </div>
+                        </div>
+                        <div style="display: flex;flex-direction: row;gap: 0.2vw;">
+                            <div>   
+                                <button class="normal_btn" id="reset_current">重置电流</button>
+                            </div>
+                            <div style="display: flex;justify-content: center;">
+                                <div class="spinner-border text-success" role="status" id="align_button_wait" style="display: none;">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="normal_btn" id="run">执行</button>
+                            </div>
+                            <div>
+                                <button class="normal_btn" id="stop">暂停</button>
+                            </div>
+                            <div>
+                                <button class="normal_btn" id="control_init">复位</button>
+                            </div>  
+                            <div>
+                                <button class="normal_btn" id="open_add_action_modal">添加动作组</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div>
+                <hr>
+            </div>
+            <div class="main-control-center" id="control_center">
+                
+            </div>
+        </div>
+        <div class="main-content" id="rectify-page" style="overflow-y: auto;">
+            <div style="display: flex;justify-content: space-between;">
+                <div>
+                    <div style="display: flex;flex-direction: row;gap:1vw;">
+                        <div>
+                            <h1>关节矫正</h1>
+                        </div>
+                        <div style="margin-top: -10px;">
+                            <i class="iconfont" style="font-size: 3.2em">&#xe7a2;</i>
+                        </div>
+                    </div>
+                    <p>矫正时应安装IMU以做数据支撑，本页面为imu配置项<button type="button" class="btn btn-outline-info group_card_streach" id="imu-table-change">imu配置</button></p>
+                </div>
+                <div>
+                    <div class="angle-box">
+                        <label>翻滚角 (Roll): </label>
+                        <span class="angle-value" id="roll">0.00</span>°
+                        <span>(-1.005)</span>
+                    </div>
+                    <div class="angle-box">
+                        <label>俯仰角 (Pitch): </label>
+                        <span class="angle-value" id="pitch">0.00</span>°
+                        <span>(0.758)</span>
+                    </div>
+                    <div class="angle-box">
+                        <label>偏航角 (Yaw): </label>
+                        <span class="angle-value" id="yaw">0.00</span>°
+                        <span>(any)</span>
+                    </div>
+                </div>
+                <div style="margin-top: 5vh;">
+                    <button class="normal_btn" id="open_add_imu_window_btn">添加imu</button>
+                    <button class="normal_btn" name="rectify" imu_bus="ttyIMU0" boards_imu="">右踝矫正</button>
+                    <button class="normal_btn" name="rectify" imu_bus="can2" boards_imu="1">左踝矫正</button>
+                    <button class="normal_btn" name="rectify" imu_bus="ttyIMU2" boards_imu="">右髋矫正</button>
+                    <button class="normal_btn" name="rectify" imu_bus="ttyIMU3" boards_imu="">左髋矫正</button>
+                </div>
+            </div>
+            <div>
+                <div id="imu_config_box" style="position: absolute;width: 90%;;height: 1px;transition: height 1s ease;overflow: auto;z-index: 1;background: white;">
+                    <table class="table table-hover imu-table" style="text-align:center">
+                        <thead>
+                            <th scope="col" style="text-align: unset;">id</th>
+                            <th scope="col">关节</th>
+                            <th scope="col">位置</th>
+                            <th scope="col">端口</th>
+                            <th scope="col">波特率</th>
+                            <th scope="col">轴向</th>
+                            <th scope="col">标准值</th>
+                            <th scope="col">误差范围</th>
+                            <th scope="col">倍率</th>
+                            <th scope="col" style="width: 15%;">操作</th>
+                        </thead>
+                        <tbody id="imu_config">
+                            <!-- <tr>
+                                <th>shit</th>
+                                <th>shit</th>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                <div style="display: flex;flex-direction: column;margin-top: 10px;">
+                    <div id="imu_show">
+                        <button class="btn btn-outline-info" data="IMU4">IMU4</button>
+                        <button class="btn btn-outline-info" data="IMU0">IMU0</button>
+                    </div>
+                    <div id="IMU_charts" class="IMU_charts" style="width: 1000px;height: 600px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content" id="actions-group-page" style="overflow: auto">
+            <div class="title">
+                <div style="display: flex;justify-content: space-between;">
+                    <div>
+                        <div style="display: flex;flex-direction: row;gap:1vw">
+                            <div>
+                                <h1>动作组调试</h1>
+                            </div>
+                            <div style="margin-top: -10px;">
+                                <i class="iconfont" style="font-size: 3.2em">&#xe60e;</i>
+                            </div>
+                        </div>
+                        <div>
+                            <p style="margin-bottom: 0;">赋予机器人流畅的控制自己的身体的能力</p>
+                        </div>
+                    </div>
+                    <div class="control_center_menu">
+                        <div id="action_record_start">
+                            <button class="green_button" id="action_record">动作录制</button>
+                        </div>
+                        <div id="action_record_end" style="display: none;">
+                            <button class="red_button" id="action_record">结束录制</button>
+                        </div>
+                        <div>
+                            <button class="normal_btn" id="add_group_window_open">添加动作组</button>
+                        </div>
+                    </div> 
+                </div>
+                <div><hr></div>
+            </div>   
+            <div style="position: relative;width: 100%;height: 100%;overflow: hidden;">
+                <div class="action_groups_cards_box" id="action_groups_cards_box">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">占位用的</h5>
+                            <p class="card-text">如果你看到该词条就说明出问题了</p>
+                            <hr>
+                            <p class="card-text">如果你看到该词条就说明出问题了</p>
+                            <a href="#" class="btn btn-primary">查看</a>
+                            <div class="right_card_body_div">
+                                <a href="#" class="btn btn-warning btn-sm">移动</a>
+                                <a href="#" class="btn btn-danger btn-sm">删除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="action_group_details">
+                    <!-- 时间轴工具栏 -->
+                    <div class="timeline-toolbar">
+                        <div class="timeline-toolbar-left">
+                            <h1 id="action-group-name" data="">选择一个动作组</h1>
+                            <span id="timeline-dirty-badge" style="display:none;">● 未保存</span>
+                        </div>
+                        <div class="timeline-toolbar-center">
+                            <button class="normal_btn" id="run_action_group">▶ 执行</button>
+                            <button class="normal_btn" id="stop_action_group">⏸ 暂停</button>
+                            <div class="timeline-loop-switch">
+                                <label class="switch b2 switch_18">
+                                    <input type="checkbox" class="checkbox" id="action_group_circulate"/>
+                                    <div class="knobs"><span></span></div>
+                                    <div class="layer"></div>
+                                </label>
+                                <span class="timeline-loop-label">循环</span>
+                            </div>
+                        </div>
+                        <div class="timeline-toolbar-right">
+                            <button class="normal_btn" id="show_call_example_btn" style="background:#6c757d;color:#fff;">&lt;/&gt; 调用示例</button>
+                            <button class="normal_btn" id="timeline_save_btn" disabled>💾 保存修改</button>
+                            <span class="timeline-zoom">
+                                <button class="btn-sm" id="timeline_zoom_out">−</button>
+                                <span id="timeline_zoom_label">1.0x</span>
+                                <button class="btn-sm" id="timeline_zoom_in">+</button>
+                            </span>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 0;">
+                    <!-- 时间轴主体 -->
+                    <div class="timeline-container" id="timeline_container">
+                        <div class="timeline-ruler" id="timeline_ruler"></div>
+                        <div class="timeline-tracks" id="timeline_tracks"></div>
+                        <div class="timeline-playhead" id="timeline_playhead"></div>
+                        <div class="timeline-snap-line" id="timeline_snap_line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content" id="voice-page">
+            <div class="title">
+                <div style="display: flex;flex-direction: row;gap:1vw">
+                    <div>
+                        <h1>语音调试</h1>
+                    </div>
+                    <div style="margin-top: -10px;">
+                        <i class="iconfont" style="font-size: 3.2em">&#xe66d;</i>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <p style="margin-bottom: 0;">赋予机器人灵魂</p>
+                <hr>
+            </div>
+        </div>
+        <div class="main-content" id="vision-page">
+            <div class="title">
+                <div style="display: flex;flex-direction: row;gap:1vw">
+                    <div>
+                        <h1>视觉调试</h1>
+                    </div>
+                    <div style="margin-top: -10px;">
+                        <i class="iconfont" style="font-size: 3.2em">&#xe646;</i>
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="overflow: unset;">
+                <p>嗨嗨嗨，老子能看见东西</p>
+            </div>
+        </div>
+        <div class="main-content" id="skill-page">
+            <div class="title">
+                <div style="display: flex;flex-direction: row;gap:1vw">
+                    <div>
+                        <h1>技能训练</h1>
+                    </div>
+                    <div style="margin-top: -10px;">
+                        <i class="iconfont" style="font-size: 3.2em">&#xe61e;</i>
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="overflow: unset;">
+                <p>嗨嗨嗨，你能训练我嘛？</p>
+            </div>
+            <div style="height: 100%;width: 100%;">
+                <div class="outer-circle">
+                    <div class="inner-circle" id="innerCircle"><div style="font-size: xx-large;text-align: center;" id="inner-circle-direction">A</div></div>
+                  </div>
+            </div>
+        </div>
+        <div class="main-content" id="action-mapping-page">
+            <div class="title">
+                <div style="display: flex;flex-direction: row;gap:1vw">
+                    <div>
+                        <h1>动作映射</h1>
+                    </div>
+                    <div style="margin-top: -10px;">
+                        <i class="iconfont" style="font-size: 3.2em;">&#xecb1;</i>
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="overflow: unset;">
+                <p>大哥咋耍你咋耍</p>
+            </div>
+        </div>
+        <div class="main-content" id="humanoid-page">
+            <div class="title">
+                <div style="display: flex;flex-direction: row;gap:1vw">
+                    <div>
+                        <h1>拟人化</h1>
+                    </div>
+                    <div style="margin-top: -10px;">
+                        <i class="iconfont" style="font-size: 3.2em;">&#xecb1;</i>
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="overflow: unset;">
+                <p>各项配置使机器人逐渐趋近于人的行为习惯</p>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="motor-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn1">&times;</span>
+            <div>
+                <h2>添 加 电 机</h2>
+                <p>添加电机以控制电机</p>
+                <hr>
+                <div  style="display: flex;flex-direction: column;gap: 10px;">
+                    <div class="form_box">
+                        <label for="motor_id">电机 id</label>
+                        <input type="number" class="form-control" id="motor_id" placeholder="板内电机id">
+                    </div>
+                    <div class="form_box">
+                        <label for="can_rx_id">CanRx</label>
+                        <input type="number" class="form-control" id="can_rx_id" placeholder="接收CAN ID">
+                    </div>
+                    <div class="form_box">
+                        <label for="can_tx_id">CanTx</label>
+                        <input type="number" class="form-control" id="can_tx_id" placeholder="发送CAN ID">
+                    </div>
+                    <div class="form_box">
+                        <label for="motor_name">电机名称</label>
+                        <input type="text" class="form-control" id="motor_name" placeholder="如：无刷电机，关节电机，步进电机...">
+                    </div>
+                    <div class="form_box">
+                        <label for="protocol" >协议类型</label>
+                        <select class="form-control" id="protocol" style="width: 70%!important;">
+                            <option value="0" selected >请选择协议</option>
+                            <option value="1">邱协议</option>
+                            <option value="2">老丁协议</option>
+                            <option value="3">步进协议</option>
+                        </select>
+                    </div>
+                    <div class="form_box">
+                        <label for="motor_current_position">当前位置</label>
+                        <input type="number" class="form-control" id="motor_current_position" placeholder="当前位置">
+                    </div>
+                    <div class="form_box">
+                        <label for="motor_max_position">最大位置</label>
+                        <input type="number" class="form-control" id="motor_max_position" placeholder="最大位置">
+                    </div>
+                    <div class="form_box">
+                        <label for="motor_min_position">最小位置</label>
+                        <input type="number" class="form-control" id="motor_min_position" placeholder="最小位置">
+                    </div>
+                    <div class="form_box">
+                        <label for="motor_default_position">默认位置</label>
+                        <input type="number" class="form-control" id="motor_default_position" placeholder="默认位置">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="normal_btn" id="add_motor" style="width:100%;">添加</button>
+            </div>
+            <div style="display: flex;justify-content: center;">
+                <div class="spinner-border text-success" role="status" id="add_motor_wait" style="display: none;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="motor-modify-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn3">&times;</span>
+            <div>
+                <h2>修 改 电 机</h2>
+                <p>修改电机的各项配置以正确使电机动起来</p>
+                <hr>
+                <div style="display: flex;flex-direction: column;gap: 10px;" id="modify_motor_form">
+                    <div class="form_box">
+                        <label for="modify_motor_id">电机 id</label>
+                        <input type="number" class="form-control" id="modify_motor_id" placeholder="板内电机id">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_can_rx_id">CanRx</label>
+                        <input type="number" class="form-control" id="modify_can_rx_id" placeholder="接收CAN ID">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_can_tx_id">CanTx</label>
+                        <input type="number" class="form-control" id="modify_can_tx_id" placeholder="发送CAN ID">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_motor_name">电机名称</label>
+                        <input type="text" class="form-control" id="modify_motor_name" placeholder="如：无刷电机，关节电机，步进电机...">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_protocol" >协议类型</label>
+                        <select class="form-control" id="modify_protocol" style="width: 70%!important;">
+                            <option value="0" selected >请选择协议</option>
+                            <option value="1">邱协议</option>
+                            <option value="2">老丁协议</option>
+                            <option value="3">步进协议</option>
+                        </select>
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_motor_current_position">当前位置</label>
+                        <input type="number" class="form-control" id="modify_motor_current_position" placeholder="当前位置">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_motor_max_position">最大位置</label>
+                        <input type="number" class="form-control" id="modify_motor_max_position" placeholder="最大位置">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_motor_min_position">最小位置</label>
+                        <input type="number" class="form-control" id="modify_motor_min_position" placeholder="最小位置">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_motor_default_position">默认位置</label>
+                        <input type="number" class="form-control" id="modify_motor_default_position" placeholder="默认位置">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="normal_btn" id="modify_motor" style="width:100%;">修改</button>
+            </div>
+            <div style="display: flex;justify-content: center;">
+                <div class="spinner-border text-success" role="status" id="modify_motor_wait" style="display: none;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="control-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn2">&times;</span>
+            <div>
+                <h2>添加控制</h2>
+                <p>添加控制节点以控制添加的电机</p>
+                <hr>
+                <div style="display: flex;flex-direction: column;gap: 10px;" id="add_controller_form" >
+                    <div class="form_box">
+                        <label for="control_id">id</label>
+                        <input type="text" class="form-control" id="control_id" placeholder="如1,2,3,4...">
+                    </div>
+                    <div class="form_box">
+                        <label for="joint_name">关节名称</label>
+                        <input type="text" class="form-control" id="joint_name" placeholder="如左肘，左膝盖等等">
+                    </div>
+                    <div class="form_box">
+                        <label for="urdf_name">URDF名称</label>
+                        <input type="text" class="form-control" id="urdf_name" placeholder="如：joint_left_elbow">
+                    </div>
+                    <div class="form_box">
+                        <label for="location">所处位置</label>
+                        <input type="text" class="form-control" id="location" placeholder="如：头部、左臂">
+                    </div>
+                    <div class="form_box">
+                        <label for="topic">Topic</label>
+                        <input type="text" class="form-control" id="topic" placeholder="如：/head/cmd_pos">
+                    </div>
+                    <div class="form_box">
+                        <label for="control_type" >控制类型</label>
+                        <select class="form-control" id="control_type" style="width: 70%!important;">
+                            <option value="1" selected>单独控制</option>
+                            <option value="2">协同控制</option>
+                        </select>
+                    </div>
+                    <div style="display: flex;max-height: 150px;overflow: auto;flex-direction: column;justify-self: center" id="choose_motor_output">
+                        
+                    </div>
+                    <div class="form_box">
+                        <label for="motor_select" >选择电机</label>
+                        <select class="form-control" id="motor_select" style="width: 70%!important;">
+                            <option value="0" selected >请选择选择电机</option>
+                        </select>
+                    </div>
+                    <div class="form_box">
+                        <label for="control_mode">控制模式</label>
+                        <select class="form-control" id="control_mode" style="width: 70%!important;">
+                            <option value="1" selected>位置/速度模式</option>
+                            <option value="2">力矩/位置模式</option>
+                        </select>
+                    </div>
+                    <div class="form_box">
+                        <label for="control_description">描述</label>
+                        <input type="text" class="form-control" id="control_description" placeholder="此处添加描述">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="normal_btn" id="add_controller" style="width:100%;">添加</button>
+            </div>
+            <div style="display: flex;justify-content: center;">
+                <div class="spinner-border text-success" role="status" id="add_controller_wait" style="display: none;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="control-modify-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn4">&times;</span>
+            <div>
+                <h2 id="modify_target">修改控制节点</h2>
+                <p>修改控制节点以正确控制添加的电机</p>
+                <hr>
+                <div style="display: flex;flex-direction: column;gap: 10px;" id="modify_controller_form" >
+                    <div class="form_box">
+                        <label for="modify_joint_name">关节名称</label>
+                        <input type="text" class="form-control" id="modify_joint_name" placeholder="如左肘，左膝盖等等">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_urdf_name">URDF名称</label>
+                        <input type="text" class="form-control" id="modify_urdf_name" placeholder="如：joint_left_elbow">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_location">所处位置</label>
+                        <input type="text" class="form-control" id="modify_location" placeholder="如：头部、左臂">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_topic">Topic</label>
+                        <input type="text" class="form-control" id="modify_topic" placeholder="如：/head/cmd_pos">
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_control_type" >控制类型</label>
+                        <select class="form-control" id="modify_control_type" style="width: 70%!important;">
+                            <option value="1" selected>单独控制</option>
+                            <option value="2">协同控制</option>
+                        </select>
+                    </div>
+                    <div style="display: flex;max-height: 150px;overflow: auto;flex-direction: column;justify-self: center" id="modify_choose_motor_output">
+                        
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_motor_select" >选择电机</label>
+                        <select class="form-control" id="modify_motor_select" style="width: 70%!important;">
+                            <option value="0" selected>请选择选择电机</option>
+                        </select>
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_control_mode">控制模式</label>
+                        <select class="form-control" id="modify_control_mode" style="width: 70%!important;">
+                            <option value="1" selected>位置/速度模式</option>
+                            <option value="2">力矩/位置模式</option>
+                        </select>
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_control_description">描述</label>
+                        <input type="text" class="form-control" id="modify_control_description" placeholder="此处修改描述">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="normal_btn" id="modify_controller" style="width:100%;">修改</button>
+            </div>
+            <div style="display: flex;justify-content: center;">
+                <div class="spinner-border text-success" role="status" id="modify_controller_wait" style="display: none;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="add-action-modal" class="modal">
+        <div class="modal-content">
+            <div style="width: 100%;height: auto;">
+                <span class="close-btn" id="closeModalBtn5">&times;</span>
+                <div style="display: flex;flex-direction: row;gap: 3%;width: 100%;">
+                    <div style="width: 40%;">
+                        <h2 id="add_action_title">添加动作</h2>
+                        <p style="margin-bottom: 0;">向动作组添加动作</p>
+                    </div>
+                    <div class="form_box" style="width: 57%;flex-direction: column;">
+                        <a href="javascript:void(0);" style="margin-left: 10%;width:35%" id="open_action_group_modal">新建动作组</a>
+                        <select class="form-control" id="add_action_select_group" style="width:65%">
+                            <option value="0" selected >请选择动作组</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div style="display: flex;flex-direction: column;gap: 10px;" id="add_action_group_form" >
+                    <div class="form_box">
+                        <label for="add_action_name">动作名称</label>
+                        <input type="text" class="form-control" id="add_action_name" placeholder="左臂大臂抬臂" style="width: 70%!important;"> 
+                    </div>
+                    <div class="form_box">
+                        <label for="add_action_seq">起始时间(s)</label>
+                        <input type="number" class="form-control" id="add_action_seq" style="width: 15%!important;" step="0.1" placeholder="0.0">
+                        <span style="font-size:11px;color:#888;margin-left:8px;">⏱ 动作在时间轴上的起始位置</span>
+                    </div>
+                    <div>
+                        <table class="add_action_table">
+                            <thead>
+                                <th>序号</th>
+                                <th>部位</th>
+                                <th>关节</th>
+                                <th>位置</th>
+                                <th>速度</th>
+                            </thead>
+                            <tbody id="add_action_tb">
+    
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <button class="normal_btn" id="add_action" style="width:100%;">添加</button>
+                    </div>
+                    <div style="display: flex;justify-content: center;">
+                        <div class="spinner-border text-success" role="status" id="add_action_wait" style="display: none;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="add-action-group-modal" class="modal">
+        <div class="modal-content">
+            <div style="width: 100%;">
+                <span class="close-btn" id="closeModalBtn6">&times;</span>
+                <div style="display: flex;flex-direction: row;gap: 3%;width: 100%;">
+                    <div style="width: 40%;">
+                        <h2 id="add_action_group_title">添加动作组</h2>
+                        <p style="margin-bottom: 0;">添加一个动作组</p>
+                    </div>
+                </div>
+                <hr>
+                <div style="display: flex;flex-direction: column;gap: 10px;" id="add_action_group_form" >
+                    <div class="form_box">
+                        <label for="add_action_group_name" style="width: auto;">动作组名称</label>
+                        <input type="text" class="form-control" id="add_action_group_name" placeholder="示例:动动手臂" style="width: 70%!important;"> 
+                    </div>
+                    <div class="form_box">
+                        <label for="add_action_group_callback">语音回复</label>
+                        <input type="text" class="form-control" id="add_action_group_callback" placeholder="示例:展示我灵活的手臂，可选" style="width: 70%!important;"> 
+                    </div>
+                    <div class="form_box">
+                        <label for="add_action_group_description">动作组描述</label>
+                        <input type="text" class="form-control" id="add_action_group_description" placeholder="示例:大臂球轴向前的同时眨眨眼" style="width: 70%!important;"> 
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <button class="normal_btn" id="add_action_group" style="width:100%;">添加</button>
+                </div>
+                <div style="display: flex;justify-content: center;">
+                    <div class="spinner-border text-success" role="status" id="add_action_wait" style="display: none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modify-action-group-modal" class="modal">
+        <div class="modal-content" style="height: 40%;">
+            <div style="width: 100%;">
+                <span class="close-btn" id="closeModalBtn7">&times;</span>
+                <div style="display: flex;flex-direction: row;gap: 3%;width: 100%;">
+                    <div style="width: 40%;">
+                        <h2 id="modify_action_group_title">修改动作组</h2>
+                        <p style="margin-bottom: 0;">修改一个动作组</p>
+                    </div>
+                </div>
+                <hr>
+                <div style="display: flex;flex-direction: column;gap: 10px;" id="modify_action_group_form" >
+                    <div class="form_box">
+                        <label for="modify_action_group_name" style="width: auto;">动作组名称</label>
+                        <input type="text" class="form-control" id="modify_action_group_name" placeholder="示例:动动手臂" style="width: 70%!important;"> 
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_action_group_callback">语音回复</label>
+                        <input type="text" class="form-control" id="modify_action_group_callback" placeholder="示例:展示我灵活的手臂，可选" style="width: 70%!important;"> 
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_action_group_description">动作组描述</label>
+                        <input type="text" class="form-control" id="modify_action_group_description" placeholder="示例:大臂球轴向前的同时眨眨眼" style="width: 70%!important;"> 
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <button class="normal_btn" id="modify_action_group" style="width:100%;">修改</button>
+                </div>
+                <div style="display: flex;justify-content: center;">
+                    <div class="spinner-border text-success" role="status" id="modify_action_group_wait" style="display: none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modify-action-modal" class="modal">
+        <div class="modal-content" style="max-height: 70%;overflow-y: auto;">
+            <div style="width: 100%;">
+                <span class="close-btn" id="closeModalBtn8">&times;</span>
+                <div style="display: flex;flex-direction: row;gap: 3%;width: 100%;">
+                    <div style="width: 40%;">
+                        <h2 id="modify_action_title">修改动作</h2>
+                        <p style="margin-bottom: 0;">修改一个动作</p>
+                    </div>
+                </div>
+                <hr>
+                <div style="display: flex;flex-direction: column;gap: 10px;" id="modify_actionform" >
+                    <div class="form_box">
+                        <label for="modify_action_name">动作名称</label>
+                        <input type="text" class="form-control" id="modify_action_name" placeholder="示例:大臂上抬" style="width: 70%!important;"> 
+                    </div>
+                    <div class="form_box">
+                        <label for="modify_action_seq">起始时间(s)</label>
+                        <input type="number" class="form-control" id="modify_action_seq" style="width: 15%!important;" step="0.1">
+                        <span style="font-size:11px;color:#888;margin-left:8px;">直接拖拽时间轴上的块更直观</span>
+                    </div>
+                    <div id="modify_control_bar">
+                        <div class="form-group card_body" style="margin-bottom: 2%;">
+                            <label for="modify_control-1">膝盖:</label>
+                            <input type="range" class="modify-form-control-range" id="modify_control-1" min="0" max="12.56" value="1.57" step="0.3925">
+                            <input type="text" class="modify-control-position-input" style="width:10%" value="1.57" id="modify_control-position-1">
+                            <label for="modify_control-speed-1" style="width:10%">速度:</label>
+                            <input type="text" style="width:10%" value="5" id="modify_control-speed-1">
+                            <button class="table_operation_btn_waring" style="width: 30px;">x</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <button class="normal_btn" id="modify_action" style="width:100%;">修改</button>
+                </div>
+                <div style="display: flex;justify-content: center;">
+                    <div class="spinner-border text-success" role="status" id="modify_action_wait" style="display: none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="add-imu-modal" class="modal">
+        <div class="modal-content">
+            <div style="width: 100%;">
+                <form class="was-validated" action="/balance/add_imu" method="post">
+                    <span class="close-btn" id="closeModalBtn9">&times;</span>
+                    <div style="display: flex;flex-direction: row;">
+                        <div><h2>添加imu</h2></div>
+                        <div>
+                            <button class="btn btn-outline-info" type="button" id="imu_add">添加</button>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 0;">
+                    <div style="display: flex;flex-direction: column;gap: 1vw;" id="add_imu_form">
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="imu_port" style="width:15%;position: relative;top: 25%;">端口:</label>
+                            <select id="imu_port" class="custom-select" style="width:55%;" name="imu_port" required>
+                                <option value="">请选择端口</option>
+                            </select>
+                            <input type="number" id="imu_baudrate" class="form-control" style="width:30%" step="1000" value="9600" placeholder="波特率" name="imu_baudrate" required>
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="imu_name" style="width:15%;position: relative;top: 25%;">名称:</label>
+                            <input type="text" id="imu_name" class="form-control" placeholder="名称" style="width: 45%;" name="imu_name" required>
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="imu_standard_value" style="width:15%;position: relative;top: 25%;"  name="imu_standard_value">标准值:</label>
+                            <input type="number" id="imu_standard_value" class="form-control" placeholder="标准值" style="width: 85%;">
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="imu_deviation" style="width:15%;position: relative;top: 25%;">误差:±</label>
+                            <input type="number" id="imu_deviation" class="form-control" placeholder="误差值" style="width: 85%;" name="imu_deviation">
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="imu_axis" style="width:15%;position: relative;top: 25%;" required>轴向:</label>
+                            <select id="imu_axis" class="custom-select" style="width:40%;" name="imu_axis">
+                                <option value="x">x轴(翻滚角)</option>
+                                <option value="y">y轴(俯仰角)</option>
+                                <option value="z">z轴(航向角)</option>
+                            </select>
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="imu_relect_joint" style="width:15%;position: relative;top: 25%;">映射关节:</label>
+                            <select id="imu_location" class="custom-select" style="width:40%;" required>
+                                <option value="">IMU所处位置</option>
+                            </select>
+                            <select id="imu_relect_joint" class="custom-select" style="width:40%;"  name="imu_location">
+                                <option value="">映射关节</option>
+                            </select>
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="imu_factor" style="width:15%;position: relative;top: 25%;">倍率：</label>
+                            <input type="number" id="imu_factor" class="form-control" placeholder="倍率" style="width: 85%;" name="imu_factor">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="modify-imu-modal" class="modal">
+        <div class="modal-content">
+            <div style="width: 100%;">
+                <form class="was-validated" action="/balance/modify_imu" method="post">
+                    <span class="close-btn" id="closeModalBtn10">&times;</span>
+                    <div style="display: flex;flex-direction: row;">
+                        <div><h2>修改imu配置</h2></div>
+                        <div>
+                            <button class="btn btn-outline-info" type="button" id="imu_modify">修改</button>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 0;">
+                    <div style="display: flex;flex-direction: column;gap: 1vw;" id="modify_imu_form">
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="modify_imu_port" style="width:15%;position: relative;top: 25%;">端口:</label>
+                            <select id="modify_imu_port" class="custom-select" style="width:55%;" required>
+                                <option value="">请选择端口</option>
+                            </select>
+                            <input type="number" id="modify_imu_baudrate" class="form-control" style="width:30%" step="1000" value="9600" placeholder="波特率" required>
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="modify_imu_name" style="width:15%;position: relative;top: 25%;">名称:</label>
+                            <input type="text" id="modify_imu_name" class="form-control" placeholder="名称" style="width: 45%;" required>
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="modify_imu_standard_value" style="width:15%;position: relative;top: 25%;">标准值:</label>
+                            <input type="number" id="modify_imu_standard_value" class="form-control" placeholder="标准值" style="width: 85%;" step="0.001">
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="modify_imu_deviation" style="width:15%;position: relative;top: 25%;">误差:±</label>
+                            <input type="number" id="modify_imu_deviation" class="form-control" placeholder="误差值" style="width: 85%;" step="0.001">
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="modify_imu_axis" style="width:15%;position: relative;top: 25%;" required>轴向:</label>
+                            <select id="modify_imu_axis" class="custom-select" style="width:40%;">
+                                <option value="x">x轴(翻滚角)</option>
+                                <option value="y">y轴(俯仰角)</option>
+                                <option value="z">z轴(航向角)</option>
+                            </select>
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="modify_imu_relect_joint" style="width:15%;position: relative;top: 25%;">映射关节:</label>
+                            <select id="modify_imu_location" class="custom-select" style="width:40%;" required>
+                                <option value="">IMU所处位置</option>
+                            </select>
+                            <select id="modify_imu_relect_joint" class="custom-select" style="width:40%;">
+                                <option value="">映射关节</option>
+                            </select>
+                        </div>
+                        <div style="display: flex;flex-direction: row;position: relative;">
+                            <label for="modify_imu_factor" style="width:15%;position: relative;top: 25%;">倍率：</label>
+                            <input type="number" id="modify_imu_factor" class="form-control" placeholder="倍率" style="width: 85%;" name="imu_factor" step="0.001s">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 调用示例弹窗 -->
+    <div id="call-example-modal" class="modal">
+        <div class="modal-content" style="max-width:700px;">
+            <span class="close-btn" id="close-call-example-modal">&times;</span>
+            <h2>📡 Python 调用示例</h2>
+            <p style="color:#888;font-size:13px;">复制以下代码即可在外部程序调用该动作组</p>
+            <pre id="call_example_code" style="background:#1e1e2e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:auto;font-size:13px;line-height:1.6;white-space:pre-wrap;"></pre>
+            <button class="normal_btn" id="copy_call_example_btn" style="margin-top:8px;">📋 复制代码</button>
+        </div>
+    </div>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/apis.js"></script>
+</body>
+</html>

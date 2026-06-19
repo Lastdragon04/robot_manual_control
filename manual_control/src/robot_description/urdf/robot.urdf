@@ -1,0 +1,1855 @@
+<robot name="rangerobot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <mujoco>
+    <compiler meshdir="package://robot_description/meshes" discardvisual="false"/>
+  </mujoco>
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.010811 -0.00013212 0.22308" rpy="0 0 0" />
+      <mass value="12.691" />
+      <inertia ixx="0.076741" ixy="1.0585E-06" ixz="-9.1119E-05" iyy="0.051262" iyz="-3.6204E-05" izz="0.044738" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/base_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="Link_head_yaw">
+    <inertial>
+      <origin xyz="-3.2339E-05 -0.0043569 0.012642" rpy="0 0 0" />
+      <mass value="0.36846" />
+      <inertia ixx="7.5073E-05" ixy="7.6907E-08" ixz="3.8602E-07" iyy="9.7485E-05" iyz="3.9494E-08" izz="9.4092E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_head_yaw.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_head_yaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_head_yaw" type="revolute">
+    <origin xyz="0.003 0 0.4915" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="Link_head_yaw" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.785" upper="0.785" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_head_pitch">
+    <inertial>
+      <origin xyz="0.011957 0.033253 0.079652" rpy="0 0 0" />
+      <mass value="1.1329" />
+      <inertia ixx="0.0021198" ixy="-1.0967E-06" ixz="-4.8596E-05" iyy="0.0015708" iyz="-9.3214E-07" izz="0.0015849" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_head_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_head_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_head_pitch" type="revolute">
+    <origin xyz="0 -0.0329999998757559 0.0349999996736745" rpy="0 0 0" />
+    <parent link="Link_head_yaw" />
+    <child link="Link_head_pitch" />
+    <axis xyz="0 -1 0" />
+    <limit lower="0" upper="0.785" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_l_01">
+    <inertial>
+      <origin xyz="0.0010288 0.033254 1.3797E-06" rpy="0 0 0" />
+      <mass value="0.64939" />
+      <inertia ixx="0.00029404" ixy="-4.8816E-06" ixz="3.2084E-09" iyy="0.00024212" iyz="-1.4013E-08" izz="0.00024634" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_01.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_01.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_l_01" type="revolute">
+    <origin xyz="0.01 0.138999999999875 0.427" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="Link_arm_l_01" />
+    <axis xyz="0 1 0" />
+    <limit lower="-3.14" upper="0.785" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_l_02">
+    <inertial>
+      <origin xyz="-0.015367 0.018908 -0.10723" rpy="0 0 0" />
+      <mass value="0.50455" />
+      <inertia ixx="0.00040845" ixy="-8.7014E-07" ixz="4.7228E-06" iyy="0.00038932" iyz="4.1208E-05" izz="0.00016291" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_02.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_02.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_l_02" type="revolute">
+    <origin xyz="0.00929999999999895 0.034000000000001 0" rpy="0 0 0" />
+    <parent link="Link_arm_l_01" />
+    <child link="Link_arm_l_02" />
+    <axis xyz="1 0 0" />
+    <limit lower="-0.52" upper="3.14" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_l_03">
+    <inertial>
+      <origin xyz="4.8519E-08 0.027786 -0.12215" rpy="0 0 0" />
+      <mass value="0.45928" />
+      <inertia ixx="0.00028512" ixy="-6.6686E-09" ixz="1.2656E-08" iyy="0.00028743" iyz="2.1991E-05" izz="0.00014882" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_03.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_03.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_l_03" type="revolute">
+    <origin xyz="-0.0150496697009203 0.0215497388484507 -0.122214642148738" rpy="0 0 0" />
+    <parent link="Link_arm_l_02" />
+    <child link="Link_arm_l_03" />
+    <axis xyz="0 0.173648177666924 -0.984807753012209" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_l_04">
+    <inertial>
+      <origin xyz="0.07884 -0.014194 -0.0025039" rpy="0 0 0" />
+      <mass value="0.47947" />
+      <inertia ixx="0.00014247" ixy="-4.5724E-07" ixz="-8.2564E-08" iyy="0.00022781" iyz="1.7737E-06" izz="0.00021833" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_04.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_04.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_l_04" type="revolute">
+    <origin xyz="0 0.0379273795154568 -0.133898194099437" rpy="0 0 0" />
+    <parent link="Link_arm_l_03" />
+    <child link="Link_arm_l_04" />
+    <axis xyz="0 0.98480775301221 0.173648177666922" />
+    <limit lower="-0.53" upper="1.65" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_l_05">
+    <inertial>
+      <origin xyz="0.074823 5.8945E-05 -4.4188E-06" rpy="0 0 0" />
+      <mass value="0.10112" />
+      <inertia ixx="2.5848E-05" ixy="-1.1809E-06" ixz="1.0069E-07" iyy="0.00012719" iyz="-1.2894E-06" izz="0.00011258" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_05.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_05.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_l_05" type="revolute">
+    <origin xyz="0.0880999999999998 -0.014082750867903 -0.0024831689416058" rpy="0 0 0" />
+    <parent link="Link_arm_l_04" />
+    <child link="Link_arm_l_05" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_l_06">
+    <inertial>
+      <origin xyz="0.099781 0.016916 0.0039031" rpy="0 0 0" />
+      <mass value="0.51961" />
+      <inertia ixx="0.0001912" ixy="1.1444E-05" ixz="1.1291E-05" iyy="0.00020372" iyz="-2.1154E-05" izz="0.00032565" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_06.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_l_06.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_l_06" type="revolute">
+    <origin xyz="0.13145000000003 -0.0100615664504717 0.000880273000306742" rpy="0 0 0" />
+    <parent link="Link_arm_l_05" />
+    <child link="Link_arm_l_06" />
+    <axis xyz="0 -0.996194698091743 0.0871557427476844" />
+    <limit lower="-1.4" upper="1.4" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_r_01">
+    <inertial>
+      <origin xyz="0.0010288 -0.033261 7.8082E-06" rpy="0 0 0" />
+      <mass value="0.64939" />
+      <inertia ixx="0.00029404" ixy="4.8673E-06" ixz="1.7138E-08" iyy="0.00024204" iyz="1.495E-08" izz="0.00024642" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_01.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_01.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_r_01" type="revolute">
+    <origin xyz="0.0100000000000018 -0.138999999999875 0.427000000000001" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="Link_arm_r_01" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-0.785" upper="3.14" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_r_02">
+    <inertial>
+      <origin xyz="-0.015366 -0.018905 -0.10723" rpy="0 0 0" />
+      <mass value="0.50455" />
+      <inertia ixx="0.00040837" ixy="7.9533E-07" ixz="4.7271E-06" iyy="0.00038942" iyz="-4.1218E-05" izz="0.00016291" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_02.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_02.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_r_02" type="revolute">
+    <origin xyz="0.00929999999999719 -0.034 0" rpy="0 0 0" />
+    <parent link="Link_arm_r_01" />
+    <child link="Link_arm_r_02" />
+    <axis xyz="1 0 0" />
+    <limit lower="-3.14" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_r_03">
+    <inertial>
+      <origin xyz="-5.1756E-08 -0.027786 -0.12215" rpy="0 0 0" />
+      <mass value="0.45928" />
+      <inertia ixx="0.00028512" ixy="-6.6787E-09" ixz="-1.2598E-08" iyy="0.00028743" iyz="-2.1991E-05" izz="0.00014882" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_03.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_03.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_r_03" type="revolute">
+    <origin xyz="-0.0150496697009266 -0.0215497388484675 -0.122214642148823" rpy="0 0 0" />
+    <parent link="Link_arm_r_02" />
+    <child link="Link_arm_r_03" />
+    <axis xyz="0 -0.173648177666914 -0.984807753012211" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_r_04">
+    <inertial>
+      <origin xyz="0.07884 0.014194 -0.0025016" rpy="0 0 0" />
+      <mass value="0.47948" />
+      <inertia ixx="0.00014247" ixy="4.5777E-07" ixz="-8.0632E-08" iyy="0.00022783" iyz="-1.6873E-06" izz="0.0002183" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_04.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_04.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_r_04" type="revolute">
+    <origin xyz="0 -0.0379273795154573 -0.133898194099437" rpy="0 0 0" />
+    <parent link="Link_arm_r_03" />
+    <child link="Link_arm_r_04" />
+    <axis xyz="0 0.984807753012208 -0.173648177666928" />
+    <limit lower="-0.53" upper="1.65" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_r_05">
+    <inertial>
+      <origin xyz="0.074823 -3.9579E-05 6.2542E-06" rpy="0 0 0" />
+      <mass value="0.10112" />
+      <inertia ixx="2.5838E-05" ixy="1.1678E-06" ixz="-2.0193E-07" iyy="0.00012685" iyz="-2.5366E-06" izz="0.00011292" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_05.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_05.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_r_05" type="revolute">
+    <origin xyz="0.0880999999999996 0.0140827508679039 -0.00248316894160525" rpy="0 0 0" />
+    <parent link="Link_arm_r_04" />
+    <child link="Link_arm_r_05" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_arm_r_06">
+    <inertial>
+      <origin xyz="0.09978 -0.01533 0.0081487" rpy="0 0 0" />
+      <mass value="0.51963" />
+      <inertia ixx="0.00019121" ixy="-8.136E-06" ixz="1.3872E-05" iyy="0.00022248" iyz="4.8807E-05" izz="0.00030692" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_06.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_arm_r_06.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_arm_r_06" type="revolute">
+    <origin xyz="0.13145 0.0100450390804697 -0.00177121141364725" rpy="0 0 0" />
+    <parent link="Link_arm_r_05" />
+    <child link="Link_arm_r_06" />
+    <axis xyz="0 -0.984807753012208 0.173648177666928" />
+    <limit lower="-1.4" upper="1.4" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_waist_yaw">
+    <inertial>
+      <origin xyz="1.7694E-16 -7.4065E-17 -0.0014877" rpy="0 0 0" />
+      <mass value="1.7558" />
+      <inertia ixx="0.0065412" ixy="-0.0001402" ixz="-3.1494E-18" iyy="0.0023995" iyz="2.1267E-19" izz="0.0088995" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_waist_yaw.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_waist_yaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_waist_yaw" type="revolute">
+    <origin xyz="0.00999999999999921 0 -0.00999999999999992" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="Link_waist_yaw" />
+    <axis xyz="0 0 -1" />
+    <limit lower="-0.39" upper="0.39" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hip_l_yaw">
+    <inertial>
+      <origin xyz="-0.0034373 -6.8472E-06 -0.0089638" rpy="0 0 0" />
+      <mass value="0.33893" />
+      <inertia ixx="9.8419E-05" ixy="-4.7609E-09" ixz="-2.0629E-05" iyy="0.00018591" iyz="-4.3173E-09" izz="0.00024877" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_l_yaw.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_l_yaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hip_l_yaw" type="revolute">
+    <origin xyz="0.00278793443282952 0.0824528800079067 -0.0349999999999999" rpy="0 0 0" />
+    <parent link="Link_waist_yaw" />
+    <child link="Link_hip_l_yaw" />
+    <axis xyz="0 0 -1" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hip_l_pitch">
+    <inertial>
+      <origin xyz="0 1.3878E-17 0" rpy="0 0 0" />
+      <mass value="0.011923" />
+      <inertia ixx="2.6542E-07" ixy="-9.9825E-25" ixz="6.6006E-25" iyy="2.6542E-07" iyz="-1.2177E-23" izz="4.2474E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hip_l_pitch" type="revolute">
+    <origin xyz="0 0 -0.0320000000000097" rpy="0 0 0" />
+    <parent link="Link_hip_l_yaw" />
+    <child link="Link_hip_l_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hip_l_roll">
+    <inertial>
+      <origin xyz="0.00014273 -0.0041411 -0.34948" rpy="0 0 0" />
+      <mass value="1.7207" />
+      <inertia ixx="0.0025399" ixy="5.5138E-07" ixz="7.6958E-06" iyy="0.0025628" iyz="1.2054E-05" izz="0.0012123" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_l_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_l_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hip_l_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hip_l_pitch" />
+    <child link="Link_hip_l_roll" />
+    <axis xyz="1 0 0" />
+    <limit lower="-0.43" upper="0.43" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_knee_l_pitch">
+    <inertial>
+      <origin xyz="0.012039 0.00048847 -0.15484" rpy="0 0 0" />
+      <mass value="0.77673" />
+      <inertia ixx="0.0077485" ixy="3.0975E-07" ixz="0.00012534" iyy="0.0077076" iyz="-9.0144E-06" izz="0.0004164" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_knee_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_knee_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_knee_l_pitch" type="revolute">
+    <origin xyz="0 0 -0.382" rpy="0 0 0" />
+    <parent link="Link_hip_l_roll" />
+    <child link="Link_knee_l_pitch" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.57" upper="0" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_ankle_l_pitch">
+    <inertial>
+      <origin xyz="-3.1294E-15 1.8596E-15 -0.01382" rpy="0 0 0" />
+      <mass value="0.1211" />
+      <inertia ixx="2.1256E-05" ixy="1.5063E-20" ixz="4.9972E-20" iyy="2.4292E-05" iyz="5.8116E-09" izz="2.292E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_ankle_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_ankle_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_ankle_l_pitch" type="revolute">
+    <origin xyz="0 0 -0.355" rpy="0 0 0" />
+    <parent link="Link_knee_l_pitch" />
+    <child link="Link_ankle_l_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_ankle_l_roll">
+    <inertial>
+      <origin xyz="0.066789 0.00032187 -0.02849" rpy="0 0 0" />
+      <mass value="0.59639" />
+      <inertia ixx="0.00030385" ixy="2.3633E-08" ixz="2.1133E-05" iyy="0.00059105" iyz="-1.438E-08" izz="0.00080942" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_ankle_l_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_ankle_l_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_ankle_l_roll" type="revolute">
+    <origin xyz="-0.0439999999999997 0 -0.0200000000000007" rpy="0 0 0" />
+    <parent link="Link_ankle_l_pitch" />
+    <child link="Link_ankle_l_roll" />
+    <axis xyz="1 0 0" />
+    <limit lower="-0.35" upper="0.35" effort="0" velocity="0" />
+  </joint>
+  <!-- <link name="Link_stress_l_f">
+    <inertial>
+      <origin xyz="-1.3878E-16 6.5226E-16 0.005" rpy="0 0 0" />
+      <mass value="0.0030788" />
+      <inertia ixx="3.5085E-08" ixy="-1.3097E-24" ixz="2.2354E-22" iyy="3.5085E-08" iyz="-4.5917E-23" izz="1.8857E-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_stress_l_f.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_stress_l_f.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_stress_l_f" type="prismatic">
+    <origin xyz="0.181000000000001 0 -0.0549999999999974" rpy="0 0 0" />
+    <parent link="Link_ankle_l_roll" />
+    <child link="Link_stress_l_f" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.005" upper="0" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_stress_l_b">
+    <inertial>
+      <origin xyz="-7.6328E-17 0 0.005" rpy="0 0 0" />
+      <mass value="0.0030788" />
+      <inertia ixx="3.5085E-08" ixy="-7.7117E-25" ixz="2.2527E-22" iyy="3.5085E-08" iyz="-4.5131E-23" izz="1.8857E-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_stress_l_b.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_stress_l_b.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_stress_l_b" type="prismatic">
+    <origin xyz="-0.0274999999999989 0.00100000000000004 -0.0550000000000002" rpy="0 0 0" />
+    <parent link="Link_ankle_l_roll" />
+    <child link="Link_stress_l_b" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.005" upper="0" effort="0" velocity="0" />
+  </joint> -->
+  <link name="Link_calfmotor_l_l_pitch">
+    <inertial>
+      <origin xyz="-0.0050256 -3.7323E-05 -0.11235" rpy="0 0 0" />
+      <mass value="0.58926" />
+      <inertia ixx="0.00022132" ixy="6.4038E-09" ixz="-1.1088E-06" iyy="0.00022198" iyz="6.6832E-08" izz="0.00019657" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_l_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_l_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_calfmotor_l_l_pitch" type="revolute">
+    <origin xyz="-0.0300000000000883 0.0234999999999927 -0.0649999999999977" rpy="0 0 0" />
+    <parent link="Link_knee_l_pitch" />
+    <child link="Link_calfmotor_l_l_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_calfmotor_l_l_line">
+    <inertial>
+      <origin xyz="0.00323671343271617 -5.71280431294063E-09 0.0723636738348015" rpy="0 0 0" />
+      <mass value="0.089142610898041" />
+      <inertia ixx="0.000124426922916367" ixy="-2.56597911245518E-13" ixz="-5.51424708328171E-06" iyy="0.000124996135327173" iyz="-6.37976417048574E-12" izz="1.39069238300777E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_l_l_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_l_l_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_calfmotor_l_l_line" type="prismatic">
+    <origin xyz="-0.0140000000000527 0 -0.312999999999998" rpy="0 0 0" />
+    <parent link="Link_calfmotor_l_l_pitch" />
+    <child link="Link_calfmotor_l_l_line" />
+    <axis xyz="-0.0446837589404053 0 -0.999001182024804" />
+    <limit lower="-0.02" upper="0.02" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_calfmotor_l_r_pitch">
+    <inertial>
+      <origin xyz="-0.0050253 -3.7325E-05 -0.11235" rpy="0 0 0" />
+      <mass value="0.58926" />
+      <inertia ixx="0.00022132" ixy="4.0543E-09" ixz="-1.1093E-06" iyy="0.00022198" iyz="6.6941E-08" izz="0.00019657" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_l_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_l_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_calfmotor_l_r_pitch" type="revolute">
+    <origin xyz="-0.0300000000004731 -0.0235000000000073 -0.064999999999985" rpy="0 0 0" />
+    <parent link="Link_knee_l_pitch" />
+    <child link="Link_calfmotor_l_r_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_calfmotor_l_r_line">
+    <inertial>
+      <origin xyz="0.0032367 -5.7218E-09 0.072364" rpy="0 0 0" />
+      <mass value="0.089143" />
+      <inertia ixx="0.00012443" ixy="-2.5722E-13" ixz="-5.5142E-06" iyy="0.000125" iyz="-6.3774E-12" izz="1.3907E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_l_r_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_l_r_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_calfmotor_l_r_line" type="prismatic">
+    <origin xyz="-0.0140000000002826 0 -0.312999999999987" rpy="0 0 0" />
+    <parent link="Link_calfmotor_l_r_pitch" />
+    <child link="Link_calfmotor_l_r_line" />
+    <axis xyz="-0.0446837589404055 0 -0.999001182024804" />
+    <limit lower="-0.02" upper="0.02" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_f_l_pitch">
+    <inertial>
+      <origin xyz="-2.3592E-16 1.3878E-17 -1.8041E-16" rpy="0 0 0" />
+      <mass value="0.011923" />
+      <inertia ixx="2.6544E-07" ixy="-2.2145E-23" ixz="-1.6338E-09" iyy="2.6542E-07" iyz="-5.1476E-23" izz="4.2472E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_f_l_pitch" type="revolute">
+    <origin xyz="0.0450000000000006 0.027 -0.0239999999999995" rpy="0 0 0" />
+    <parent link="Link_hip_l_yaw" />
+    <child link="Link_hipmotor_l_f_l_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_f_l_roll">
+    <inertial>
+      <origin xyz="0.0011112 2.6327E-05 -0.11077" rpy="0 0 0" />
+      <mass value="0.59532" />
+      <inertia ixx="0.00022083" ixy="-1.547E-07" ixz="2.8705E-07" iyy="0.00022109" iyz="-4.9372E-08" izz="0.00019742" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_l_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_l_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_f_l_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hipmotor_l_f_l_pitch" />
+    <child link="Link_hipmotor_l_f_l_roll" />
+    <axis xyz="0.999947407173625 0 0.0102558708427868" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_f_l_line">
+    <inertial>
+      <origin xyz="-0.0012133 -4.0118E-09 0.1183" rpy="0 0 0" />
+      <mass value="0.12759" />
+      <inertia ixx="0.00051545" ixy="-2.7233E-09" ixz="5.2713E-06" iyy="0.00051583" iyz="-3.426E-11" izz="1.5502E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_l_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_l_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_f_l_line" type="prismatic">
+    <origin xyz="0.004 0 -0.39" rpy="0 0 0" />
+    <parent link="Link_hipmotor_l_f_l_roll" />
+    <child link="Link_hipmotor_l_f_l_line" />
+    <axis xyz="0.010256 0 -0.99995" />
+    <limit lower="-0.12" upper="0.12" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_f_r_pitch">
+    <inertial>
+      <origin xyz="-2.3592E-16 0 -1.9429E-16" rpy="0 0 0" />
+      <mass value="0.011923" />
+      <inertia ixx="2.6544E-07" ixy="-5.0583E-24" ixz="-1.6338E-09" iyy="2.6542E-07" iyz="-2.2896E-22" izz="4.2472E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_f_r_pitch" type="revolute">
+    <origin xyz="0.0450000000000005 -0.027 -0.0239999999999995" rpy="0 0 0" />
+    <parent link="Link_hip_l_yaw" />
+    <child link="Link_hipmotor_l_f_r_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_f_r_roll">
+    <inertial>
+      <origin xyz="0.0011636 2.571E-05 -0.11077" rpy="0 0 0" />
+      <mass value="0.59532" />
+      <inertia ixx="0.00022084" ixy="1.5564E-07" ixz="1.9195E-07" iyy="0.00022109" iyz="-4.5073E-08" izz="0.00019742" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_r_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_r_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_f_r_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hipmotor_l_f_r_pitch" />
+    <child link="Link_hipmotor_l_f_r_roll" />
+    <axis xyz="0.999947407173625 0 0.0102558708427841" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_f_r_line">
+    <inertial>
+      <origin xyz="-0.0012133 -4.0015E-09 0.1183" rpy="0 0 0" />
+      <mass value="0.12759" />
+      <inertia ixx="0.00051546" ixy="2.6451E-09" ixz="5.2714E-06" iyy="0.00051583" iyz="2.0722E-11" izz="1.5502E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_r_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_f_r_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_f_r_line" type="prismatic">
+    <origin xyz="0.00399999999999233 0 -0.390000000000009" rpy="0 0 0" />
+    <parent link="Link_hipmotor_l_f_r_roll" />
+    <child link="Link_hipmotor_l_f_r_line" />
+    <axis xyz="0.010255870842806 0 -0.999947407173625" />
+    <limit lower="-0.12" upper="0.12" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_b_l_pitch">
+    <inertial>
+      <origin xyz="3.2245E-14 0 -1.1421E-14" rpy="0 0 0" />
+      <mass value="0.011923" />
+      <inertia ixx="2.6544E-07" ixy="-6.5524E-24" ixz="1.7314E-09" iyy="2.6542E-07" iyz="-4.7411E-22" izz="4.2472E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_b_l_pitch" type="revolute">
+    <origin xyz="-0.0450000000000608 0.0270000000000002 -0.0459999999999783" rpy="0 0 0" />
+    <parent link="Link_hip_l_yaw" />
+    <child link="Link_hipmotor_l_b_l_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_b_l_roll">
+    <inertial>
+      <origin xyz="-0.00124 -2.1427E-07 -0.11077" rpy="0 0 0" />
+      <mass value="0.59532" />
+      <inertia ixx="0.00022099" ixy="1.7541E-09" ixz="-1.8922E-07" iyy="0.00022094" iyz="3.7224E-10" izz="0.00019742" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_l_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_l_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_b_l_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hipmotor_l_b_l_pitch" />
+    <child link="Link_hipmotor_l_b_l_roll" />
+    <axis xyz="0.999940931510023 0 -0.0108689231695937" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_b_l_line">
+    <inertial>
+      <origin xyz="0.0012858 4.0033E-09 0.1183" rpy="0 0 0" />
+      <mass value="0.12759" />
+      <inertia ixx="0.00051545" ixy="-4.0125E-09" ixz="-5.5864E-06" iyy="0.00051583" iyz="4.9925E-11" izz="1.5569E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_l_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_l_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_b_l_line" type="prismatic">
+    <origin xyz="-0.00400000000043095 0 -0.367999999999984" rpy="0 0 0" />
+    <parent link="Link_hipmotor_l_b_l_roll" />
+    <child link="Link_hipmotor_l_b_l_line" />
+    <axis xyz="-0.0108689231685868 0 -0.999940931510034" />
+    <limit lower="-0.12" upper="0.12" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_b_r_pitch">
+    <inertial>
+      <origin xyz="-3.4001E-16 0 1.1102E-16" rpy="0 0 0" />
+      <mass value="0.011923" />
+      <inertia ixx="2.6544E-07" ixy="1.2264E-23" ixz="1.7314E-09" iyy="2.6542E-07" iyz="-2.1617E-22" izz="4.2472E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_b_r_pitch" type="revolute">
+    <origin xyz="-0.045 -0.027 -0.046" rpy="0 0 0" />
+    <parent link="Link_hip_l_yaw" />
+    <child link="Link_hipmotor_l_b_r_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_b_r_roll">
+    <inertial>
+      <origin xyz="-0.0012419 3.5961E-08 -0.11077" rpy="0 0 0" />
+      <mass value="0.59532" />
+      <inertia ixx="0.00022099" ixy="-3.523E-10" ixz="-1.8904E-07" iyy="0.00022094" iyz="-5.8457E-11" izz="0.00019742" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_r_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_r_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_b_r_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hipmotor_l_b_r_pitch" />
+    <child link="Link_hipmotor_l_b_r_roll" />
+    <axis xyz="-0.999940931510034 0 0.0108689231686076" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_l_b_r_line">
+    <inertial>
+      <origin xyz="0.0012858 -4.0016E-09 0.1183" rpy="0 0 0" />
+      <mass value="0.12759" />
+      <inertia ixx="0.00051545" ixy="-4.0006E-09" ixz="-5.5864E-06" iyy="0.00051583" iyz="3.704E-11" izz="1.5569E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_r_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_l_b_r_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_l_b_r_line" type="prismatic">
+    <origin xyz="-0.00400000000000771 0 -0.36800000000001" rpy="0 0 0" />
+    <parent link="Link_hipmotor_l_b_r_roll" />
+    <child link="Link_hipmotor_l_b_r_line" />
+    <axis xyz="-0.0108689231685877 0 -0.999940931510034" />
+    <limit lower="-0.12" upper="0.12" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hip_r_yaw">
+    <inertial>
+      <origin xyz="-0.0034373 3.3686E-06 -0.0089638" rpy="0 0 0" />
+      <mass value="0.33893" />
+      <inertia ixx="9.8419E-05" ixy="-4.7609E-09" ixz="-2.0629E-05" iyy="0.00018591" iyz="-3.7854E-09" izz="0.00024877" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_r_yaw.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_r_yaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hip_r_yaw" type="revolute">
+    <origin xyz="-0.00278793443282778 -0.0824528800079081 -0.035" rpy="0 0 0" />
+    <parent link="Link_waist_yaw" />
+    <child link="Link_hip_r_yaw" />
+    <axis xyz="0 0 -1" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hip_r_pitch">
+    <inertial>
+      <origin xyz="1.7347E-18 -1.3878E-17 0" rpy="0 0 0" />
+      <mass value="0.011923" />
+      <inertia ixx="2.6542E-07" ixy="-1.1622E-23" ixz="-1.0486E-23" iyy="2.6542E-07" iyz="1.3407E-24" izz="4.2474E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hip_r_pitch" type="revolute">
+    <origin xyz="0 0 -0.032" rpy="0 0 0" />
+    <parent link="Link_hip_r_yaw" />
+    <child link="Link_hip_r_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1" upper="0.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hip_r_roll">
+    <inertial>
+      <origin xyz="0.00022478 0.0041396 -0.34951" rpy="0 0 0" />
+      <mass value="1.7213" />
+      <inertia ixx="0.0025518" ixy="-7.6828E-07" ixz="7.4029E-06" iyy="0.0025742" iyz="-1.1678E-05" izz="0.0012119" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_r_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hip_r_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hip_r_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hip_r_pitch" />
+    <child link="Link_hip_r_roll" />
+    <axis xyz="1 0 0" />
+    <limit lower="-0.43" upper="0.43" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_knee_r_pitch">
+    <inertial>
+      <origin xyz="0.012038 -0.00049382 -0.15484" rpy="0 0 0" />
+      <mass value="0.77672" />
+      <inertia ixx="0.0077484" ixy="-3.3373E-07" ixz="0.00012535" iyy="0.0077076" iyz="9.2117E-06" izz="0.00041651" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_knee_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_knee_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_knee_r_pitch" type="revolute">
+    <origin xyz="0 0 -0.381999999999999" rpy="0 0 0" />
+    <parent link="Link_hip_r_roll" />
+    <child link="Link_knee_r_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="0" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_ankle_r_pitch">
+    <inertial>
+      <origin xyz="4.85722573273506E-17 -1.38777878078145E-17 -0.0138198285278347" rpy="0 0 0" />
+      <mass value="0.12110472051703" />
+      <inertia ixx="2.1255619384338E-05" ixy="2.55679915236056E-21" ixz="3.60304634379613E-22" iyy="2.42942780715256E-05" iyz="8.33571135152312E-09" izz="2.29169230521231E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_ankle_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_ankle_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_ankle_r_pitch" type="revolute">
+    <origin xyz="0 0 -0.355" rpy="0 0 0" />
+    <parent link="Link_knee_r_pitch" />
+    <child link="Link_ankle_r_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_ankle_r_roll">
+    <inertial>
+      <origin xyz="0.0667885614077852 1.40006917568464E-05 -0.0284895971725836" rpy="0 0 0" />
+      <mass value="0.596392882075005" />
+      <inertia ixx="0.000303829066394845" ixy="2.36332273278617E-08" ixz="2.11304599774711E-05" iyy="0.000591045531081684" iyz="-1.43800200604257E-08" izz="0.000809433104987903" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_ankle_r_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_ankle_r_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_ankle_r_roll" type="revolute">
+    <origin xyz="-0.044 0 -0.02" rpy="0 0 0" />
+    <parent link="Link_ankle_r_pitch" />
+    <child link="Link_ankle_r_roll" />
+    <axis xyz="1 0 0" />
+    <limit lower="-0.35" upper="0.35" effort="0" velocity="0" />
+  </joint>
+  <!-- <link name="Link_stress_r_f">
+    <inertial>
+      <origin xyz="0 0 0.005" rpy="0 0 0" />
+      <mass value="0.003078760800518" />
+      <inertia ixx="3.50850449559031E-08" ixy="3.70507982706058E-25" ixz="-4.62577497954126E-23" iyy="3.50850449559031E-08" iyz="-7.65939315817026E-25" izz="1.88574099031727E-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_stress_r_f.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_stress_r_f.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_stress_r_f" type="prismatic">
+    <origin xyz="0.180999999999997 0 -0.0550000000000004" rpy="0 0 0" />
+    <parent link="Link_ankle_r_roll" />
+    <child link="Link_stress_r_f" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.005" upper="0" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_stress_r_b">
+    <inertial>
+      <origin xyz="0 0 0.005" rpy="0 0 0" />
+      <mass value="0.003078760800518" />
+      <inertia ixx="3.50850449559031E-08" ixy="-9.39194653836253E-25" ixz="-2.29375139986141E-25" iyy="3.50850449559031E-08" iyz="4.85573889305309E-25" izz="1.88574099031728E-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_stress_r_b.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_stress_r_b.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_stress_r_b" type="prismatic">
+    <origin xyz="-0.0275 0 -0.055" rpy="0 0 0" />
+    <parent link="Link_ankle_r_roll" />
+    <child link="Link_stress_r_b" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.005" upper="0" effort="0" velocity="0" />
+  </joint> -->
+  <link name="Link_calfmotor_r_l_pitch">
+    <inertial>
+      <origin xyz="-0.00506247244855157 3.14881715521298E-07 -0.112347133660918" rpy="0 0 0" />
+      <mass value="0.589255994212488" />
+      <inertia ixx="0.000221638469995161" ixy="-2.71000418337831E-09" ixz="-1.05662274601626E-06" iyy="0.000221672264692215" iyz="-4.42101709822837E-10" izz="0.000196560544703222" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_r_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_r_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_calfmotor_r_l_pitch" type="revolute">
+    <origin xyz="-0.03 0.0235 -0.065" rpy="0 0 0" />
+    <parent link="Link_knee_r_pitch" />
+    <child link="Link_calfmotor_r_l_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_calfmotor_r_l_line">
+    <inertial>
+      <origin xyz="0.0032367134437491 -5.72175755386706E-09 0.0723636738163148" rpy="0 0 0" />
+      <mass value="0.0891426109236504" />
+      <inertia ixx="0.00012442692291652" ixy="-2.57222575871865E-13" ixz="-5.51424708171755E-06" iyy="0.000124996135327186" iyz="-6.3773768297372E-12" izz="1.39069238306048E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_r_l_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_r_l_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_calfmotor_r_l_line" type="prismatic">
+    <origin xyz="-0.014 0 -0.313" rpy="0 0 0" />
+    <parent link="Link_calfmotor_r_l_pitch" />
+    <child link="Link_calfmotor_r_l_line" />
+    <axis xyz="-0.0446837589404062 0 -0.999001182024804" />
+    <limit lower="-0.02" upper="0.02" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_calfmotor_r_r_pitch">
+    <inertial>
+      <origin xyz="-0.00498792201684109 1.33260373140487E-06 -0.112350467289515" rpy="0 0 0" />
+      <mass value="0.589255985994086" />
+      <inertia ixx="0.000221626131887077" ixy="1.08907484143363E-08" ixz="-1.19013699510246E-06" iyy="0.000221672631545765" iyz="-2.88639825972207E-09" izz="0.000196572512709982" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_r_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_r_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_calfmotor_r_r_pitch" type="revolute">
+    <origin xyz="-0.03 -0.0235 -0.065" rpy="0 0 0" />
+    <parent link="Link_knee_r_pitch" />
+    <child link="Link_calfmotor_r_r_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_calfmotor_r_r_line">
+    <inertial>
+      <origin xyz="-0.0107632855309568 5.74420989940538E-09 -0.240636327353476" rpy="0 0 0" />
+      <mass value="0.0891426123527431" />
+      <inertia ixx="0.000124426922984406" ixy="3.00158946991101E-13" ixz="-5.51424713217077E-06" iyy="0.000124996135465273" iyz="6.37346891589248E-12" izz="1.39069244746801E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_r_r_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_calfmotor_r_r_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_calfmotor_r_r_line" type="prismatic">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_calfmotor_r_r_pitch" />
+    <child link="Link_calfmotor_r_r_line" />
+    <axis xyz="-0.044684 0 -0.999" />
+    <limit lower="-0.02" upper="0.02" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_f_l_pitch">
+    <inertial>
+      <origin xyz="6.93889390390723E-18 0 0" rpy="0 0 0" />
+      <mass value="0.0119230192715647" />
+      <inertia ixx="2.65440785995563E-07" ixy="1.66239918804073E-23" ixz="-1.63378798816674E-09" iyy="2.65424029195685E-07" iyz="-3.02655499246827E-23" izz="4.24718358041949E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.650980392156863 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_f_l_pitch" type="revolute">
+    <origin xyz="0.0450000000000001 0.027 -0.024" rpy="0 0 0" />
+    <parent link="Link_hip_r_yaw" />
+    <child link="Link_hipmotor_r_f_l_pitch" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_f_l_roll">
+    <inertial>
+      <origin xyz="0.00111042965519179 -2.55745422947859E-05 -0.110772050937315" rpy="0 0 0" />
+      <mass value="0.595321027266243" />
+      <inertia ixx="0.000220839250140016" ixy="1.54631217568521E-07" ixz="2.88485659291553E-07" iyy="0.000221085085469856" iyz="4.80087974405681E-08" izz="0.000197424722662364" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_l_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.650980392156863 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_l_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_f_l_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hipmotor_r_f_l_pitch" />
+    <child link="Link_hipmotor_r_f_l_roll" />
+    <axis xyz="0.999947407173625 0 0.010255870842805" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_f_l_line">
+    <inertial>
+      <origin xyz="-0.00121330099661792 -4.00549256263094E-09 0.118296818729006" rpy="0 0 0" />
+      <mass value="0.127585719464482" />
+      <inertia ixx="0.000515450928437557" ixy="-5.11470755196859E-10" ixz="5.27132941577961E-06" iyy="0.000515835546177899" iyz="-1.16088496884421E-11" izz="1.55023084052404E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_l_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_l_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_f_l_line" type="prismatic">
+    <origin xyz="0.00400000000000676 0 -0.39" rpy="0 0 0" />
+    <parent link="Link_hipmotor_r_f_l_roll" />
+    <child link="Link_hipmotor_r_f_l_line" />
+    <axis xyz="0.0102558708428193 0 -0.999947407173625" />
+    <limit lower="-0.12" upper="0.12" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_f_r_pitch">
+    <inertial>
+      <origin xyz="-6.93889390390723E-18 1.38777878078145E-17 0" rpy="0 0 0" />
+      <mass value="0.0119230192715647" />
+      <inertia ixx="2.65440785995563E-07" ixy="-4.34669056496235E-24" ixz="-1.63378798816673E-09" iyy="2.65424029195685E-07" iyz="3.34228771824224E-24" izz="4.24718358041949E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.650980392156863 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_f_r_pitch" type="revolute">
+    <origin xyz="0.045 -0.027 -0.024" rpy="0 0 0" />
+    <parent link="Link_hip_r_yaw" />
+    <child link="Link_hipmotor_r_f_r_pitch" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_f_r_roll">
+    <inertial>
+      <origin xyz="0.0011611 2.63E-05 -0.11077" rpy="0 0 0" />
+      <mass value="0.59532" />
+      <inertia ixx="0.00022083" ixy="1.5572E-07" ixz="1.9311E-07" iyy="0.00022109" iyz="-4.6142E-08" izz="0.00019742" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_r_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_r_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_f_r_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hipmotor_r_f_r_pitch" />
+    <child link="Link_hipmotor_r_f_r_roll" />
+    <axis xyz="-0.999947407173625 0 -0.0102558708428077" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_f_r_line">
+    <inertial>
+      <origin xyz="-0.0012133 -4.0052E-09 0.1183" rpy="0 0 0" />
+      <mass value="0.12759" />
+      <inertia ixx="0.00051546" ixy="1.7781E-13" ixz="5.2714E-06" iyy="0.00051583" iyz="-6.3644E-12" izz="1.5502E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_r_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_f_r_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_f_r_line" type="prismatic">
+    <origin xyz="0.0039999999999998 0 -0.39" rpy="0 0 0" />
+    <parent link="Link_hipmotor_r_f_r_roll" />
+    <child link="Link_hipmotor_r_f_r_line" />
+    <axis xyz="0.010255870842806 0 -0.999947407173625" />
+    <limit lower="-0.12" upper="0.12" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_b_l_pitch">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.011923" />
+      <inertia ixx="2.6544E-07" ixy="-2.4555E-23" ixz="1.7314E-09" iyy="2.6542E-07" iyz="-2.1774E-22" izz="4.2472E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_l_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_b_l_pitch" type="revolute">
+    <origin xyz="-0.0450000000000001 0.027 -0.046" rpy="0 0 0" />
+    <parent link="Link_hip_r_yaw" />
+    <child link="Link_hipmotor_r_b_l_pitch" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_b_l_roll">
+    <inertial>
+      <origin xyz="-0.001203 -3.6945E-05 -0.11077" rpy="0 0 0" />
+      <mass value="0.59532" />
+      <inertia ixx="0.00022068" ixy="2.5307E-10" ixz="-2.5301E-07" iyy="0.00022125" iyz="6.7056E-08" izz="0.00019742" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_l_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_l_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_b_l_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hipmotor_r_b_l_pitch" />
+    <child link="Link_hipmotor_r_b_l_roll" />
+    <axis xyz="0.999940931510034 0 -0.0108689231685854" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_b_l_line">
+    <inertial>
+      <origin xyz="0.0012858 4.006E-09 0.1183" rpy="0 0 0" />
+      <mass value="0.12759" />
+      <inertia ixx="0.00051544" ixy="-8.2946E-10" ixz="-5.5864E-06" iyy="0.00051584" iyz="1.5374E-11" izz="1.5569E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_l_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_l_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_b_l_line" type="prismatic">
+    <origin xyz="-0.00399999999999692 0 -0.368" rpy="0 0 0" />
+    <parent link="Link_hipmotor_r_b_l_roll" />
+    <child link="Link_hipmotor_r_b_l_line" />
+    <axis xyz="0.0108689231685868 0 0.999940931510034" />
+    <limit lower="-0.12" upper="0.12" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_b_r_pitch">
+    <inertial>
+      <origin xyz="-6.9389E-18 -1.3878E-17 0" rpy="0 0 0" />
+      <mass value="0.011923" />
+      <inertia ixx="2.6544E-07" ixy="1.335E-23" ixz="1.7314E-09" iyy="2.6542E-07" iyz="-1.6087E-24" izz="4.2472E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_r_pitch.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_b_r_pitch" type="revolute">
+    <origin xyz="-0.0450000000000001 -0.027 -0.046" rpy="0 0 0" />
+    <parent link="Link_hip_r_yaw" />
+    <child link="Link_hipmotor_r_b_r_pitch" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1" upper="1.57" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_b_r_roll">
+    <inertial>
+      <origin xyz="-0.0012052 -3.6944E-05 -0.11077" rpy="0 0 0" />
+      <mass value="0.59532" />
+      <inertia ixx="0.00022068" ixy="2.1642E-09" ixz="-2.5242E-07" iyy="0.00022125" iyz="6.7035E-08" izz="0.00019742" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_r_roll.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.65098 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_r_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_b_r_roll" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="Link_hipmotor_r_b_r_pitch" />
+    <child link="Link_hipmotor_r_b_r_roll" />
+    <axis xyz="-0.999940931510034 0 0.0108689231685882" />
+    <limit lower="-0.52" upper="0.52" effort="0" velocity="0" />
+  </joint>
+  <link name="Link_hipmotor_r_b_r_line">
+    <inertial>
+      <origin xyz="0.0012858 4.0036E-09 0.1183" rpy="0 0 0" />
+      <mass value="0.12759" />
+      <inertia ixx="0.00051545" ixy="3.4725E-09" ixz="-5.5864E-06" iyy="0.00051583" iyz="-3.1326E-11" izz="1.5569E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_r_line.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Link_hipmotor_r_b_r_line.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="J_hipmotor_r_b_r_line" type="prismatic">
+    <origin xyz="-0.00399999999999991 0 -0.368" rpy="0 0 0" />
+    <parent link="Link_hipmotor_r_b_r_roll" />
+    <child link="Link_hipmotor_r_b_r_line" />
+    <axis xyz="0.0108689231685877 0 0.999940931510034" />
+    <limit lower="-0.12" upper="0.12" effort="0" velocity="0" />
+  </joint>
+  
+</robot>

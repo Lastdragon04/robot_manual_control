@@ -1,0 +1,168 @@
+{% extends "base.html" %}  <!-- 声明继承自 base.html -->
+{% block title %}
+    决策
+{% endblock %}
+{% block body %}
+    <div>
+        <script src="/static/js/voice.js"></script>
+        <div class="title">
+            <div style="display: flex;flex-direction: row;gap:1vw">
+                <div>
+                    <h1>语音调试</h1>
+                </div>
+                <div style="margin-top: -10px;">
+                    <i class="iconfont" style="font-size: 3.2em">&#xe66d;</i>
+                </div>
+            </div>
+        </div>
+        <div class="content" style="overflow: hidden;">
+            <div style="display: flex;flex-direction: row;">
+                <div>
+                    <p style="margin-bottom: 0;">赋予机器人灵魂</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-outline-info" id="knowledge-table-change">知识库</button>
+                </div>
+                <div>
+                    <input class="form-control" type="text" placeholder="search..." id="searchInput">
+                </div>
+                <div>
+                    <button type="button" class="btn btn-outline-primary" id="knowledge-add">添加</button>
+                </div>
+            </div>
+            <div style="border-top: 1px solid darkgray;display: flex;justify-content: space-between;width: 100%;">
+                <div id="knowledge_config_box" style="position: absolute; width: 91%; height: 1px; transition: height 1s ease 0s; overflow: auto; z-index: 1; background: white;">
+                    <table class="table table-hover knowledge-table" style="border: 0;" id="knowledge-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">问题</td>
+                                <th style="width: 30%;">回答</td>
+                                <th>类型</th>
+                                <th>动作</th>
+                                <th>对象</th>
+                                <th style="width: 15%;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in knowledge %}
+                            <tr id="knowledge_id_{{ item[0] }}">
+                                <td style="width: 20%;" name="question">{{ item[1] }}</td>
+                                <td style="width: 30%;" name="answer">{{ item[2] }}</td>
+                                <td name="answer_type">{{ item[3] }}</td>
+                                {% if item[4] %}
+                                    <td name="action_group">{{ item[4] }}</td>
+                                {% else %}
+                                    <td name="action_group"></td>
+                                {% endif %}
+                                {% if item[5] %}
+                                    <td name="objects">{{ item[5] }}</td>
+                                {% else %}
+                                    <td name="objects"></td>
+                                {% endif %}
+                                <td style="width: 15%;">
+                                    <button type="button" class="table_operation_btn" data={{ item[0] }} answer_type={{ item[3] }}>编辑</button>
+                                    <button type="button" class="table_operation_btn_waring"  data={{ item[0] }} answer_type={{ item[3] }}>删除</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="add-knowledge-modal" class="modal">
+        <div class="modal-content">
+            <div style="display: flex;flex-direction: column;">
+                <div style="display: flex;justify-content: space-between;">
+                    <div style="display: flex;flex-direction: row;">
+                        <div>
+                            <h1>添加知识库</h1>
+                            <p style="margin-bottom: 0;">脑子痒痒的要长知识了</p>
+                        </div>
+                        <div>
+                            <button class="normal_btn" id="add_knowledge_submit">提交</button>
+                        </div>
+                    </div>
+                    <div style="width: 5%;position: relative;">
+                        <span style="position: absolute;top: 0;right: 0;" class="close-btn" id="closeModalBtn10">&times;</span>
+                    </div>
+                </div>
+                <div>
+                    <hr style="margin-top: 0;margin-bottom: 0;">
+                </div>
+            </div>
+            <div style="display: flex;flex-direction: row;">
+                <label for="add_answer_type" style="width:15%;margin-bottom: 0;padding-top: 1%;font-size: larger;">类型:</label>
+                <select id="add_answer_type" class="form-control" style="width: 80%;">
+                    <option value="">请选择回答类型</option>
+                    <option value="1">普通回答</option>
+                    <option value="2">指令类型</option>
+                    <option value="3">功能型</option>
+                    <option value="4">复杂型</option>
+                </select>
+            </div>
+            <div style="display: none;flex-direction: row;">
+                <label for="add_bind_action_group" style="width:15%;margin-bottom: 0;padding-top: 1%;font-size: larger;">动作组:</label>
+                <select id="add_bind_action_group" class="form-control" style="width: 80%;">
+                    <option value="">绑定动作组</option>
+                </select>
+            </div>
+            <div style="display: flex;flex-direction: row;">
+                <label for="add_question" style="width:15%;margin-bottom: 0;padding-top: 1%;font-size: larger;">问题:</label>
+                <input type="text" id="add_question" class="form-control" placeholder="在此输入问题" style="width: 80%;" required="">
+            </div>
+            <div style="display: flex;flex-direction: row;">
+                <label for="add_answer" style="width:15%;margin-bottom: 0;padding-top: 1%;font-size: larger;">回答:</label>
+                <textarea name="add_answer" id="add_answer" class="form-control" style="width: 80%;height: 30vh;" placeholder="在此输入回答"></textarea>
+            </div>
+        </div>
+    </div>
+    <div id="modify-knowledge-modal" class="modal">
+        <div class="modal-content">
+            <div style="display: flex;flex-direction: column;">
+                <div style="display: flex;justify-content: space-between;">
+                    <div style="display: flex;flex-direction: row;">
+                        <div>
+                            <h1>修改知识</h1>
+                            <p style="margin-bottom: 0;">脑子痒痒的要长知识了</p>
+                        </div>
+                        <div>
+                            <button class="normal_btn" id="modify_knowledge_submit">提交</button>
+                        </div>
+                    </div>
+                    <div style="width: 5%;position: relative;">
+                        <span style="position: absolute;top: 0;right: 0;" class="close-btn" id="closeModalBtn10">&times;</span>
+                    </div>
+                </div>
+                <div>
+                    <hr style="margin-top: 0;margin-bottom: 0;">
+                </div>
+            </div>
+            <div style="display: flex;flex-direction: row;">
+                <label for="modify_answer_type" style="width:15%;margin-bottom: 0;padding-top: 1%;font-size: larger;">类型:</label>
+                <select id="modify_answer_type" class="form-control" style="width: 80%;">
+                    <option value="" selected>请选择回答类型</option>
+                    <option value="1">普通回答</option>
+                    <option value="2">指令类型</option>
+                    <option value="3">功能型</option>
+                    <option value="4">复杂型</option>
+                </select>
+            </div>
+            <div style="display: none;flex-direction: row;">
+                <label for="modify_bind_action_group" style="width:15%;margin-bottom: 0;padding-top: 1%;font-size: larger;">动作组:</label>
+                <select id="modify_bind_action_group" class="form-control" style="width: 80%;">
+                    <option value="" selected>选择动作组</option>
+                </select>
+            </div>
+            <div style="display: flex;flex-direction: row;">
+                <label for="modify_question" style="width:15%;margin-bottom: 0;padding-top: 1%;font-size: larger;">问题:</label>
+                <input type="text" id="modify_question" class="form-control" placeholder="在此输入问题" style="width: 80%;" required="">
+            </div>
+            <div style="display: flex;flex-direction: row;">
+                <label for="modify_answer" style="width:15%;margin-bottom: 0;padding-top: 1%;font-size: larger;">回答:</label>
+                <textarea name="modify_answer" id="modify_answer" class="form-control" style="width: 80%;height: 30vh;" placeholder="在此输入回答"></textarea>
+            </div>
+        </div>
+    </div>
+{% endblock %}
