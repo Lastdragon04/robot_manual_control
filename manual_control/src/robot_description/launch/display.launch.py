@@ -40,6 +40,7 @@ def generate_launch_description():
     return LaunchDescription([
         LogInfo(msg=f"[INFO] URDF path: {urdf_path}"),
         robot_state_publisher_node,
+        joint_description,
         # joint_state_publisher_gui_node,
         # can_imu_publisher,
         rviz2_node

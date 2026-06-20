@@ -1001,6 +1001,67 @@
             <button class="normal_btn" id="copy_call_example_btn" style="margin-top:8px;">📋 复制代码</button>
         </div>
     </div>
+    <!-- 语音识别 Toast（左下） -->
+    <div class="toast-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
+        <div class="toast" id="voice-toast" role="alert" data-delay="3000" style="min-width: 200px; max-width: 360px; width: auto;">
+            <div class="toast-header" style="background: #4361ee; color: #fff;">
+                <i class="iconfont" style="font-size:1.2em;margin-right:6px;">&#xe66d;</i>
+                <strong class="me-auto">听见了</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="voice-toast-body"></div>
+        </div>
+    </div>
+    <!-- 右侧 Toast 栈：工具 + 回复 -->
+    <div class="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px;">
+        <div class="toast" id="tool-toast" role="alert" data-delay="3000" style="min-width: 200px; max-width: 360px; width: auto;">
+            <div class="toast-header" style="background: #e67e22; color: #fff;">
+                <i class="iconfont" style="font-size:1.2em;margin-right:6px;">&#xe600;</i>
+                <strong class="me-auto">执行动作</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="tool-toast-body"></div>
+        </div>
+        <div class="toast" id="reply-toast" role="alert" data-delay="5000" style="min-width: 200px; max-width: 360px; width: auto;">
+            <div class="toast-header" style="background: #27ae60; color: #fff;">
+                <i class="iconfont" style="font-size:1.2em;margin-right:6px;">&#xe64b;</i>
+                <strong class="me-auto">回复</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="reply-toast-body"></div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var proto = location.protocol === "https:" ? "wss:" : "ws:";
+            // 回复需要累积文本
+            var replyBuffer = "";
+            var replyTimer;
+            function connect() {
+                var ws = new WebSocket(proto + "//" + location.host + "/ws/events");
+                ws.onmessage = function(e) {
+                    try {
+                        var d = JSON.parse(e.data);
+                        if (d.type === "voice") {
+                            document.getElementById("voice-toast-body").textContent = d.text;
+                            $("#voice-toast").toast("show");
+                        } else if (d.type === "tool") {
+                            document.getElementById("tool-toast-body").textContent = "🤖 " + d.name;
+                            $("#tool-toast").toast("show");
+                        } else if (d.type === "reply") {
+                            replyBuffer += d.text;
+                            document.getElementById("reply-toast-body").textContent = replyBuffer;
+                            $("#reply-toast").toast("show");
+                            clearTimeout(replyTimer);
+                            replyTimer = setTimeout(function() { replyBuffer = ""; }, 2000);
+                        }
+                    } catch(_) {}
+                };
+                ws.onclose = function() { setTimeout(connect, 2000); };
+            }
+            connect();
+        })();
+    </script>
     <script src="/static/js/script.js"></script>
     <script src="/static/js/apis.js"></script>
 </body>

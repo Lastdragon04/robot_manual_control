@@ -40,52 +40,48 @@
 | 科学计算 | NumPy, Matplotlib |
 | URDF | 天工2.0Pro / 天轶2.0Pro 完整URDF模型 |
 
-## 系统架构（四层）
+## 系统架构（API 驱动 + 语音）★
 
 ```
-┌──────────────────────────────────────────────────┐
-│            Claude (AI 助手)                        │
-│  通过 MCP 协议直接控制机器人                        │
-│  • 自然语言 → 动作组执行                           │
-│  • 每个动作组自动映射为 MCP Tool                   │
-└────────────────────┬─────────────────────────────┘
-                     │ MCP (stdio JSON-RPC)
-┌────────────────────▼─────────────────────────────┐
-│          mcp_control (ROS2 Node)                   │
-│  MCP→HTTP 代理，将 AI 指令转发给 http_control      │
-│  • 启动时从数据库加载动作组 → MCP Tools            │
-│  • 委托 http_control 执行，不重复造轮子            │
-└────────────────────┬─────────────────────────────┘
-                     │ HTTP REST
-┌────────────────────▼─────────────────────────────┐
-│               Browser (SPA)                       │
-│  jQuery + Bootstrap 4 + ECharts + WebSocket       │
-│  • 实时电机控制  • 时间轴动作编排  • IMU可视化     │
-└────────────────────┬─────────────────────────────┘
-                     │ HTTP REST + WebSocket
-┌────────────────────▼─────────────────────────────┐
-│           robot_control (ROS2 Node)               │
-│  FastAPI + uvicorn (port 3754)                    │
-│  • REST API — 电机/控制器/动作组 CRUD             │
-│  • ROS2 Publishers →                              │
-│    /head/cmd_pos, /arm/cmd_pos,                   │
-│    /waist/cmd_pos, /leg/cmd_pos,                  │
-│    /inspire_hand/ctrl/{left,right}_hand           │
-└────────────────────┬─────────────────────────────┘
-                     │ ROS2 Topic
-┌────────────────────▼─────────────────────────────┐
-│          joint_description (ROS2 Node)             │
-│  JointHub — 关节状态管理中心                       │
-│  • 订阅控制指令，插值平滑运动                       │
-│  • 20Hz 发布 /joint_states                        │
-│  • 支持 RViz 可视化                               │
-└────────────────────┬─────────────────────────────┘
-                     │
-┌────────────────────▼─────────────────────────────┐
-│               SQLite (WAL Mode)                    │
-│  robot / motor_config / control_config            │
-│  action_groups / action / words                   │
-└──────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│            Anthropic API (主线) / Claude Code (辅助)   │
+│  • 主线：think_node 直接调 API，LLM 自主决策+执行     │
+│  • 辅助：Claude Code → MCP Server 调动作组（调试用）  │
+└───────────────────────┬──────────────────────────────┘
+                        │ Anthropic API / MCP (SSE)
+┌───────────────────────▼──────────────────────────────┐
+│          brain_system (大脑) ★NEW                     │
+│  mcp_server (SSE :9876): MCP→HTTP 代理（辅助通道）   │
+│  think_node: LLM 对话 + Tool Use → /voice/reply      │
+└───────────────────────────┬──────────────────────────┘
+                            │
+┌───────────────┐          │     ┌─────────────────────┐
+│ voice_system  │   /voice/text  │  Browser (SPA)      │
+│ listen_node   │───→  ┌─┴──┐ ←──│  前端 + WebSocket    │
+│ VAD + ASR     │      │    │    │  /ws/events 事件总线  │
+│ 语音→文字      │      └────┘     │  左下/右下 Toast     │
+└───────────────┘                └────────┬────────────┘
+                                         │ HTTP + WS
+┌────────────────────────────────────────▼─────────────┐
+│           robot_control (ROS2 Node)                   │
+│  FastAPI + uvicorn (:3754) + WebSocket (:8765)        │
+│  • REST API — 电机/控制器/动作组 CRUD                    │
+│  • ROS2 Publishers → /head/cmd_pos, /arm/cmd_pos ...  │
+│  • WebSocket /ws/events → 语音/工具/回复事件             │
+└───────────────────────────┬───────────────────────────┘
+                            │ ROS2 Topic
+┌───────────────────────────▼───────────────────────────┐
+│          joint_description (ROS2 Node)                │
+│  JointHub — 关节状态管理中心                             │
+│  • 订阅控制指令，插值平滑运动                             │
+│  • 20Hz 发布 /joint_states, 支持 RViz 可视化            │
+└───────────────────────────┬───────────────────────────┘
+                            │
+┌───────────────────────────▼───────────────────────────┐
+│               SQLite (WAL Mode)                       │
+│  robot / motor_config / control_config                │
+│  action_groups / action / words                       │
+└───────────────────────────────────────────────────────┘
 ```
 
 ## 演示
@@ -134,20 +130,60 @@ Web 控制台点击执行动作组，RViz 中机器人实时响应：
 
 ### 6. MCP Server — Claude AI 控制机器人 ★
 
-- **自动 Tool 映射**：启动时从数据库加载所有动作组，每个动作组自动注册为一个 MCP Tool（tool 名 = 动作组名，描述 = 动作组描述）
-- **零硬编码**：新增/修改动作组无需改代码，Claude 自动感知
-- **HTTP 代理模式**：`mcp_control` 不重复控制逻辑，通过 HTTP 委托 `http_control` 执行
-- **机器人隔离**：通过 `robot_name` 参数指定机器人，仅暴露该机器人的动作组
+- **自动 Tool 映射**：启动时从数据库加载所有动作组，每个动作组自动注册为一个 MCP Tool
+- **零硬编码**：新增/修改动作组无需改代码，http_control 通过 `mcp_tools_reload` 通知自动重载
+- **HTTP 代理模式**：`mcp_server` 不重复控制逻辑，通过 HTTP 委托 `http_control` 执行
+- **机器人隔离**：通过 `robot_name` 参数指定机器人
 - 支持循环执行 (`cycle`) 和断点起始 (`start_from`)
+
+![mcp动作调用演示](README_source/mcp演示.gif)
+
+语音对话调用mcp，语音合成暂无。
 
 **启动**：
 ```bash
-ros2 run mcp_control mcp_server --ros-args -p robot_name:=天工2.0Pro
+ros2 run brain_system mcp_server --ros-args -p robot_name:=天轶2.0Pro -p port:=9876
 ```
 
 **Claude Code 配置**：
 ```bash
-claude mcp add robot -- ros2 run mcp_control mcp_server --ros-args -p robot_name:=天工2.0Pro
+claude mcp add robot -- ros2 run brain_system mcp_server --ros-args -p robot_name:=天轶2.0Pro
+```
+
+
+### 7. 语音识别系统（voice_system）★NEW
+
+- **实时语音识别**：pyaudio → Silero VAD 逐帧检测 → SenseVoiceSmall ASR
+- **内存直传**：音频数据 numpy 数组传入 ASR，不写磁盘
+- **发布 Topic**：`/voice/text`（识别文本）、`/voice/status`（状态）
+- **启动**：`ros2 run voice_system listen_node`
+
+### 8. 大脑系统（brain_system）★NEW — API 驱动主线
+
+- **自主决策**：`think_node` 直接调用 Anthropic API，不依赖 Claude Code，自主完成对话+动作
+- **LLM 对话**：订阅 `/voice/text` → Anthropic API (DeepSeek) 流式生成 → `/voice/reply`
+- **Tool Use**：动作组自动转为 Anthropic Tool 格式，LLM 可自然调用动作
+- **辅助通道**：`mcp_server` 提供 MCP 接口，供 Claude Code 等外部工具调试用
+- **启动**：`ros2 run brain_system think_node`
+
+### 9. 事件总线（WebSocket）★NEW
+
+`/ws/events` 统一推送三类事件：
+
+| 事件 | 来源 | 前端 | 颜色 |
+|------|------|------|------|
+| 用户说话 | `/voice/text` | 左下 | 蓝 |
+| 执行动作 | `/voice/tool` | 右下 | 橙 |
+| AI 回复 | `/voice/reply` | 右下 | 绿 |
+
+### 10. 一键启动（start_up）★NEW
+
+```bash
+ros2 launch start_up base.launch.py
+```
+
+```bash
+ros2 launch robot_description display.launch.py
 ```
 
 ## 数据库核心表
@@ -315,17 +351,23 @@ http_to_ros/
 │   ├── js/voice.js                    # 语音控制
 │   ├── css/styles.css                 # 自定义样式
 │   └── bootstrap-4.6.2-dist/
-├── Models/                            # .pkl 多项式文件存储
+├── Models/                            # .pkl + 语音模型
+│   └── Voice/                         # SenseVoiceSmall + FSMN VAD
 ├── manual_control/src/
 │   ├── robot_control/robot_control/   # 主控包
-│   │   ├── http_control.py            # FastAPI + ROS2 入口
+│   │   ├── http_control.py            # FastAPI + ROS2 + WebSocket 总线
 │   │   ├── bll.py                     # 业务逻辑
 │   │   ├── schemas_models.py          # Pydantic 模型
 │   │   └── db/crud.py                 # 数据访问层
-│   ├── mcp_control/mcp_control/       # MCP Server（Claude AI 桥接）
-│   │   └── mcp_server.py              # MCP→HTTP 代理
+│   ├── brain_system/brain_system/     # 大脑决策 ★NEW
+│   │   ├── mcp_server.py              # MCP Server (SSE :9876)
+│   │   └── think_node.py              # LLM 对话 + Tool Use
+│   ├── voice_system/voice_system/     # 语音 I/O ★NEW
+│   │   └── listen_node.py             # VAD + ASR
+│   ├── start_up/                      # 一键启动 ★NEW
+│   │   └── launch/base.launch.py
 │   ├── joint_description/             # 关节状态管理
-│   ├── robot_description/             # 机器人URDF + Launch(display.launch.py)
+│   ├── robot_description/             # 机器人URDF + Launch
 │   ├── tiangong2pro_urdf/             # 天工2.0Pro URDF
 │   ├── tianyi2_urdf/                  # 天轶2.0Pro URDF
 │   ├── bodyctrl_msgs/                 # 自定义ROS2消息包

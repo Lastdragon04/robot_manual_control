@@ -1133,7 +1133,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <a href="#" class="btn btn-primary group_card_streach" data="${data[0]}" style="position: absolute;bottom: 4%;left: 40%;z-index:1">查看</a>
                                 <div class="right_card_body_div">
                                     <a href="#" class="btn btn-primary edit btn-sm" data="${data[0]}">编辑</a>
-                                    <a href="#" class="btn btn-warning btn-sm" data="${data[0]}">移动</a>
                                     <a href="#" class="btn btn-danger btn-sm" data="${data[0]}">删除</a>
                                 </div>
                                 <div class="action_tree_box" id="action_tree_box-${data[0]}">

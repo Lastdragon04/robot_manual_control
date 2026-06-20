@@ -1,0 +1,16 @@
+# 语音模型文件（太大，不上传 git）
+Models/Voice/SenseVoiceSmall/
+Models/Voice/speech_fsmn_vad_zh-cn-16k-common-pytorch/
+
+# 编译产物
+manual_control/build/
+manual_control/install/
+manual_control/log/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 数据库运行时文件
+Memories/robot_control_v2.db-shm
+Memories/robot_control_v2.db-wal

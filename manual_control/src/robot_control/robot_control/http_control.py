@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from fastapi import FastAPI,Request, Depends, HTTPException,Form,File, UploadFile,Query
+from fastapi import FastAPI,Request, Depends, HTTPException,Form,File, UploadFile,Query,WebSocket,WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -11,6 +11,7 @@ import uvicorn
 import asyncio
 from websockets import serve
 import threading
+from queue import Queue
 from .db.crud import InvertedIndexSearcher as IIS
 from collections import defaultdict
 from bodyctrl_msgs.msg import SetMotorPosition,CmdSetMotorPosition
@@ -50,6 +51,16 @@ class FastAPINode(Node):
 
         # MCP 同步通知：动作组/动作变更时发布
         self.mcp_notify_pub = self.create_publisher(String, 'mcp_tools_reload', 10)
+
+        # 事件总线 → WebSocket 广播（语音 + 工具）
+        self._event_queue = Queue()
+        self._event_clients = set()
+        self.voice_sub = self.create_subscription(
+            String, '/voice/text', lambda m: self._on_ws_event(m, "voice"), 10)
+        self.tool_sub = self.create_subscription(
+            String, '/voice/tool', lambda m: self._on_ws_event(m, "tool"), 10)
+        self.reply_sub = self.create_subscription(
+            String, '/voice/reply', lambda m: self._on_ws_event(m, "reply"), 10)
         
 
         self.ALLOWED_PARTS={"arm":[],"head":[]}
@@ -72,6 +83,11 @@ class FastAPINode(Node):
         self.setup_routes(self.dist_path)
         self.server_thread = threading.Thread(target=self.run_server)
         self.server_thread.start()
+
+        # 通知下游：http_control 已启动
+        msg = String()
+        msg.data = json.dumps({"type": "init"})
+        self.mcp_notify_pub.publish(msg)
 
     def _publish(self, msg, part):
         """发布消息，动态创建未注册的 publisher"""
@@ -174,6 +190,30 @@ class FastAPINode(Node):
         self.mcp_notify_pub.publish(msg)
         self.get_logger().debug(f"已通知 MCP: {data}")
 
+
+    def _on_ws_event(self, msg: String, event_type: str):
+        """统一事件处理，包装类型后广播"""
+        if event_type == "tool":
+            data = json.loads(msg.data)
+            wrapped = json.dumps({"type": "tool", "name": data.get("name", "")})
+        else:
+            wrapped = json.dumps({"type": event_type, "text": msg.data})
+        self._event_queue.put(wrapped)
+
+    async def _event_ws_handler(self, websocket: WebSocket):
+        """WebSocket: 推送事件到前端"""
+        await websocket.accept()
+        self._event_clients.add(websocket)
+        try:
+            while True:
+                while not self._event_queue.empty():
+                    data = self._event_queue.get_nowait()
+                    await websocket.send_text(data)
+                await asyncio.sleep(0.05)
+        except WebSocketDisconnect:
+            pass
+        finally:
+            self._event_clients.discard(websocket)
     def get_db(self) -> IIS:
         return self.IIS
 
@@ -225,6 +265,20 @@ class FastAPINode(Node):
             control_ids: List[int]
             parts: List[str]
 
+        @self.app.websocket("/ws/events")
+        async def ws_events(websocket: WebSocket):
+            await self._event_ws_handler(websocket)
+
+        @self.app.get("/voice")
+        async def voice_page(request: Request):
+            with open(dist_path + "/templates/voice.html", "r") as file:
+                template = file.read()
+            # Jinja2 渲染继承 base.html
+            from jinja2 import Environment, FileSystemLoader
+            env = Environment(loader=FileSystemLoader(dist_path + "/templates"))
+            tmpl = env.get_template("voice.html")
+            return HTMLResponse(content=tmpl.render(knowledge=[]))
+
         @self.app.get("/")
         async def index():
             with open(dist_path + "/index.html", "r") as file:
@@ -271,6 +325,15 @@ class FastAPINode(Node):
         def get_all_action_group(robot_id: int = Query(None), db: IIS = Depends(self.get_db)):
             groups = db.query_all_action_group(robot_id)
             return {"groups": groups}
+
+        @self.app.get("/action_group/get_group")
+        def get_action_group(group_id: int = Query(...), db: IIS = Depends(self.get_db)):
+            row = db.query_action_group_by_id(group_id)
+            if not row:
+                return {}
+            # row: (id, name, description, callback, robot_id)
+            # 前端期望: [id, name, callback, description]
+            return [row[0], row[1], row[3], row[2]]
 
         @self.app.delete("/action_group/delete")
         def delete_action_groups(group_id: int = Form(...), db: IIS = Depends(self.get_db)):

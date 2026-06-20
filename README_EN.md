@@ -40,54 +40,47 @@
 | Scientific | NumPy, Matplotlib |
 | URDF | Full URDF models for Tiangong 2.0Pro / Tianyi 2.0Pro |
 
-## Architecture (Four Layers)
+## Architecture (API-Driven + Voice) ★
 
 ```
-┌──────────────────────────────────────────────────┐
-│            Claude (AI Assistant)                   │
-│  Control robots via MCP protocol                   │
-│  • Natural language → action group execution      │
-│  • Each action group auto-mapped as MCP Tool      │
-└────────────────────┬─────────────────────────────┘
-                     │ MCP (stdio JSON-RPC)
-┌────────────────────▼─────────────────────────────┐
-│          mcp_control (ROS2 Node)                   │
-│  MCP→HTTP proxy, forwards AI commands             │
-│  • Loads action groups → MCP Tools on startup     │
-│  • Delegates execution to http_control            │
-└────────────────────┬─────────────────────────────┘
-                     │ HTTP REST
-┌────────────────────▼─────────────────────────────┐
-│               Browser (SPA)                       │
-│  jQuery + Bootstrap 4 + ECharts + WebSocket       │
-│  • Real-time motor control                        │
-│  • Timeline action choreography                   │
-│  • IMU visualization                              │
-└────────────────────┬─────────────────────────────┘
-                     │ HTTP REST + WebSocket
-┌────────────────────▼─────────────────────────────┐
-│           robot_control (ROS2 Node)               │
-│  FastAPI + uvicorn (port 3754)                    │
-│  • REST API — motor/controller/action CRUD        │
-│  • ROS2 Publishers →                              │
-│    /head/cmd_pos, /arm/cmd_pos,                   │
-│    /waist/cmd_pos, /leg/cmd_pos,                  │
-│    /inspire_hand/ctrl/{left,right}_hand           │
-└────────────────────┬─────────────────────────────┘
-                     │ ROS2 Topic
-┌────────────────────▼─────────────────────────────┐
-│          joint_description (ROS2 Node)             │
-│  JointHub — Joint State Manager                   │
-│  • Interpolated smooth motion from commands       │
-│  • Publishes /joint_states at 20Hz                │
-│  • RViz visualization support                     │
-└────────────────────┬─────────────────────────────┘
-                     │
-┌────────────────────▼─────────────────────────────┐
-│               SQLite (WAL Mode)                    │
-│  robot / motor_config / control_config            │
-│  action_groups / action / words                   │
-└──────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│         Anthropic API (Primary) / Claude Code (Aux)   │
+│  • Primary: think_node calls API directly + Tool Use  │
+│  • Auxiliary: Claude Code → MCP Server (debugging)    │
+└───────────────────────┬──────────────────────────────┘
+                        │ Anthropic API / MCP (SSE)
+┌───────────────────────▼──────────────────────────────┐
+│          brain_system (Brain) ★NEW                    │
+│  mcp_server (SSE :9876): MCP→HTTP proxy (aux channel)│
+│  think_node: LLM chat + Tool Use → /voice/reply      │
+└───────────────────────────┬──────────────────────────┘
+                            │
+┌───────────────┐          │          ┌─────────────────┐
+│ voice_system  │   /voice/text    │  Browser (SPA)   │
+│ listen_node   │───→  ┌─┴──┐ ←──│  /ws/events bus  │
+│ VAD + ASR     │     │    │     │  Left/Bottom-right  │
+└───────────────┘     └────┘     └────────┬────────────┘
+                                         │ HTTP + WS
+┌────────────────────────────────────────▼─────────────┐
+│           robot_control (ROS2 Node)                   │
+│  FastAPI + uvicorn (:3754) + WebSocket                │
+│  • REST API — motor/controller/action CRUD            │
+│  • ROS2 Publishers → /head, /arm, /waist, /leg, hands│
+│  • WebSocket /ws/events → voice/tool/reply events    │
+└───────────────────────────┬───────────────────────────┘
+                            │ ROS2 Topic
+┌───────────────────────────▼───────────────────────────┐
+│          joint_description (ROS2 Node)                 │
+│  JointHub — Joint State Manager                       │
+│  • Interpolated smooth motion from commands           │
+│  • Publishes /joint_states at 20Hz, RViz support      │
+└───────────────────────────┬───────────────────────────┘
+                            │
+┌───────────────────────────▼───────────────────────────┐
+│               SQLite (WAL Mode)                        │
+│  robot / motor_config / control_config                │
+│  action_groups / action / words                       │
+└───────────────────────────────────────────────────────┘
 ```
 
 ## Demo
@@ -136,20 +129,61 @@ Execute an action group from the web console, with the robot responding in real 
 
 ### 6. MCP Server — Claude AI Robot Control ★
 
-- **Auto Tool Mapping**: Action groups loaded from DB on startup, each auto-registered as an MCP Tool (tool name = group name, description = group description)
-- **Zero Hard-coding**: Add/modify action groups without changing code; Claude picks them up automatically
-- **HTTP Proxy Mode**: `mcp_control` delegates execution to `http_control` via HTTP — no duplicated control logic
+- **Auto Tool Mapping**: Action groups loaded from DB on startup, each auto-registered as an MCP Tool
+- **Zero Hard-coding**: Add/modify action groups without changing code; auto-reload via `mcp_tools_reload`
+- **HTTP Proxy Mode**: `mcp_server` delegates execution to `http_control` via HTTP
 - **Robot Isolation**: `robot_name` parameter filters which robot's action groups are exposed
 - Supports loop execution (`cycle`) and breakpoint start (`start_from`)
 
+![mcp动作调用演示](README_source/mcp演示.gif)
+
 **Launch**:
 ```bash
-ros2 run mcp_control mcp_server --ros-args -p robot_name:=Tiangong2.0Pro
+ros2 run brain_system mcp_server --ros-args -p robot_name:=Tianyi2.0Pro -p port:=9876
 ```
 
 **Claude Code Config**:
 ```bash
-claude mcp add robot -- ros2 run mcp_control mcp_server --ros-args -p robot_name:=Tiangong2.0Pro
+claude mcp add robot -- ros2 run brain_system mcp_server --ros-args -p robot_name:=Tianyi2.0Pro
+```
+
+	![MCP action demo](README_source/mcp演示.gif)
+
+	Voice conversation calling MCP, TTS not yet implemented.
+
+### 7. Voice System (voice_system) ★NEW
+
+- **Real-time ASR**: pyaudio → Silero VAD → SenseVoiceSmall → `/voice/text`
+- **In-memory**: Audio passed as numpy array, no disk writes
+- **Topics**: `/voice/text` (recognized text), `/voice/status` (idle/speaking/recognizing)
+- **Launch**: `ros2 run voice_system listen_node`
+
+### 8. Brain System (brain_system) ★NEW — API-Driven Primary
+
+- **Autonomous**: `think_node` calls Anthropic API directly — no dependency on Claude Code
+- **LLM Chat**: Subscribes `/voice/text` → Anthropic API (DeepSeek) streaming → `/voice/reply`
+- **Tool Use**: Action groups auto-converted to Anthropic Tool format, LLM calls tools naturally
+- **Auxiliary Channel**: `mcp_server` exposes MCP for Claude Code debugging
+- **Launch**: `ros2 run brain_system think_node`
+
+### 9. Event Bus (WebSocket) ★NEW
+
+`/ws/events` pushes three event types to browser:
+
+| Event | Source | Position | Color |
+|-------|--------|----------|-------|
+| User speech | `/voice/text` | Bottom-left | Blue |
+| Tool call | `/voice/tool` | Bottom-right | Orange |
+| AI reply | `/voice/reply` | Bottom-right | Green |
+
+### 10. One-Click Launch (start_up) ★NEW
+
+	```bash
+	ros2 launch robot_description display.launch.py
+	```
+
+```bash
+ros2 launch start_up base.launch.py
 ```
 
 ## Core Database Tables
@@ -324,8 +358,14 @@ http_to_ros/
 │   │   ├── bll.py                     # Business logic
 │   │   ├── schemas_models.py          # Pydantic models
 │   │   └── db/crud.py                 # Data access layer
-│   ├── mcp_control/mcp_control/       # MCP Server (Claude AI bridge)
-│   │   └── mcp_server.py              # MCP→HTTP proxy
+│   ├── brain_system/brain_system/     # Brain ★NEW
+│   │   ├── mcp_server.py              # MCP Server (SSE :9876)
+│   │   └── think_node.py              # LLM chat + Tool Use
+│   ├── voice_system/voice_system/     # Voice I/O ★NEW
+│   │   └── listen_node.py             # VAD + ASR
+│   ├── start_up/                      # One-click launch ★NEW
+│   │   └── launch/base.launch.py
+│   ├── joint_description/             # Joint state manager
 │   ├── joint_description/             # Joint state manager
 │   ├── robot_description/             # Robot URDF + Launch (display.launch.py)
 │   ├── tiangong2pro_urdf/             # Tiangong 2.0Pro URDF
